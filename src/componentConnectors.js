@@ -21,18 +21,18 @@ let getInitialStateFunc = (noKey, store, key, componentName)=> {
   }
 };
 
-let subscribe = (noKey, store, key, componentInstance)=> {
+let subscribe = (_this, noKey, store, key, componentInstance)=> {
   let listener = noKey ? store : store[stateTriggers][key];
 
-  this.unsubscribe = listener.listen((dataObj)=> {
+  _this.unsubscribe = listener.listen((dataObj)=> {
     //store triggers storeState or storeState.key
     let newState = noKey ? dataObj : object([key], [dataObj]);
     setStateFunc(componentInstance, newState)
   });
 };
 
-let unSubscribe = ()=> {
-  this.unsubscribe();
+let unSubscribe = (_this)=> {
+  _this.unsubscribe();
 };
 
 /**
@@ -50,10 +50,10 @@ export function connectMixin(store, key) {
     },
     componentDidMount() {
       var componentInstance = this;
-      subscribe.call(this, noKey, store, key, componentInstance);
+      subscribe(this, noKey, store, key, componentInstance);
     },
     componentWillUnmount(){
-      unSubscribe.call(this);
+      unSubscribe(this);
     }
   }
 }
@@ -74,7 +74,7 @@ function connectDecorator (React, store, key) {
 
     return class ConnectorWrapper extends React.Component {
 
-      componentDidMount() {
+      componentDidMount = ()=>{
         let findInnerComponent = function (instance) {
           //recursively find inner most 'real react component', allowing multiple decorators
           if (instance.refs[componentRef]) {
@@ -88,11 +88,11 @@ function connectDecorator (React, store, key) {
         let initialState = getInitialStateFunc(noKey, store, key, Component.name);
         setStateFunc(componentInstance, initialState);
 
-        subscribe.call(this, noKey, store, key, componentInstance);
+        subscribe(this, noKey, store, key, componentInstance);
 
-      }
+      };
 
-      componentWillUnmount() { unSubscribe();  }
+      componentWillUnmount = ()=>{ unSubscribe(this);  };
 
       render() {
         return (
