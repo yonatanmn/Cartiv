@@ -1,7 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
 import TodoTextInput from './TodoTextInput'
+import {createConnector} from 'cartiv';
+let connect = createConnector(React);
+import todoStore from '../stores/todoStore';
+import API from '../actions/Api';
 
+@connect(todoStore, 'todos')
 class TodoItem extends Component {
   constructor(props, context) {
     super(props, context)
@@ -16,15 +21,15 @@ class TodoItem extends Component {
 
   handleSave(id, text) {
     if (text.length === 0) {
-      this.props.deleteTodo(id)
+      API.todo.onDelete(id)
     } else {
-      this.props.editTodo(id, text)
+      API.todo.onEdit(id, text)
     }
     this.setState({ editing: false })
   }
 
   render() {
-    const { todo, completeTodo, deleteTodo } = this.props
+    const { todo } = this.props;
 
     let element
     if (this.state.editing) {
@@ -39,12 +44,12 @@ class TodoItem extends Component {
           <input className="toggle"
                  type="checkbox"
                  checked={todo.completed}
-                 onChange={() => completeTodo(todo.id)} />
+                 onChange={() => API.todo.onComplete(todo.id)} />
           <label onDoubleClick={this.handleDoubleClick.bind(this)}>
             {todo.text}
           </label>
           <button className="destroy"
-                  onClick={() => deleteTodo(todo.id)} />
+                  onClick={() => API.todo.onDelete(todo.id)} />
         </div>
       )
     }
@@ -60,11 +65,9 @@ class TodoItem extends Component {
   }
 }
 
-TodoItem.propTypes = {
-  todo: PropTypes.object.isRequired,
-  editTodo: PropTypes.func.isRequired,
-  deleteTodo: PropTypes.func.isRequired,
-  completeTodo: PropTypes.func.isRequired
-}
 
 export default TodoItem
+
+TodoItem.propTypes = {
+  todo: PropTypes.object.isRequired
+}
