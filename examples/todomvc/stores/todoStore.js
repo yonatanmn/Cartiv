@@ -1,5 +1,5 @@
 import {createStore} from 'cartiv';
-import api from '../actions/Api';
+import api from './Api';
 
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
 

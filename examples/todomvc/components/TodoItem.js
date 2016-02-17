@@ -4,7 +4,7 @@ import TodoTextInput from './TodoTextInput'
 import {createConnector} from 'cartiv';
 let connect = createConnector(React);
 import todoStore from '../stores/todoStore';
-import API from '../actions/Api';
+import API from '../stores/Api';
 
 @connect(todoStore, 'todos')
 class TodoItem extends Component {

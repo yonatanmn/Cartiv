@@ -5,7 +5,7 @@ import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
 import {createConnector} from 'cartiv';
 let connect = createConnector(React);
 import todoStore from '../stores/todoStore';
-import API from '../actions/Api';
+import API from '../stores/Api';
 
 
 const FILTER_TITLES = {

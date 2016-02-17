@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
-import API from '../actions/Api';
+import API from '../stores/Api';
 
 class TodoTextInput extends Component {
   constructor(props, context) {
