@@ -2,15 +2,26 @@ import React, { PropTypes, Component } from 'react'
 import classnames from 'classnames'
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
 
+import {createConnector} from 'cartiv';
+let connect = createConnector(React);
+import todoStore from '../stores/todoStore';
+import API from '../actions/Api';
+
+
 const FILTER_TITLES = {
   [SHOW_ALL]: 'All',
   [SHOW_ACTIVE]: 'Active',
   [SHOW_COMPLETED]: 'Completed'
 }
 
+@connect(todoStore, 'filter')
+@connect(todoStore, 'todos')
+@connect(todoStore, 'completedCount')
 class Footer extends Component {
   renderTodoCount() {
-    const { activeCount } = this.props
+    const { completedCount, todos = [] } = this.state
+    const activeCount = todos.length - completedCount;
+
     const itemWord = activeCount === 1 ? 'item' : 'items'
 
     return (
@@ -22,23 +33,23 @@ class Footer extends Component {
 
   renderFilterLink(filter) {
     const title = FILTER_TITLES[filter]
-    const { filter: selectedFilter, onShow } = this.props
+    const { filter: selectedFilter } = this.state
 
     return (
       <a className={classnames({ selected: filter === selectedFilter })}
          style={{ cursor: 'pointer' }}
-         onClick={() => onShow(filter)}>
+         onClick={() => API.todo.onChangeFilter(filter)}>
         {title}
       </a>
     )
   }
 
   renderClearButton() {
-    const { completedCount, onClearCompleted } = this.props
+    const { completedCount } = this.state
     if (completedCount > 0) {
       return (
         <button className="clear-completed"
-                onClick={onClearCompleted} >
+                onClick={API.todo.onClearCompleted} >
           Clear completed
         </button>
       )
@@ -63,11 +74,6 @@ class Footer extends Component {
 }
 
 Footer.propTypes = {
-  completedCount: PropTypes.number.isRequired,
-  activeCount: PropTypes.number.isRequired,
-  filter: PropTypes.string.isRequired,
-  onClearCompleted: PropTypes.func.isRequired,
-  onShow: PropTypes.func.isRequired
 }
 
 export default Footer

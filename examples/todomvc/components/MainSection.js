@@ -16,6 +16,7 @@ const TODO_FILTERS = {
 }
 @connect(todoStore, 'todos')
 @connect(todoStore, 'completedCount')
+@connect(todoStore, 'filter')
 class MainSection extends Component {
   constructor(props) {
     super(props)
@@ -25,13 +26,9 @@ class MainSection extends Component {
     }
   }
 
-  handleClearCompleted() {
-    //this.props.actions.clearCompleted()
-  }
 
-  handleShow(filter) {
-    API.todo.onChangeFilter(filter);
-  }
+
+
 
   handleCompletedAll(){
     // todo:
@@ -50,18 +47,12 @@ class MainSection extends Component {
     }
   }
 
-  renderFooter(completedCount) {
-    const { todos, filter } = this.state
-    //const { filter } = this.state
-    const activeCount = todos.length - completedCount
+  renderFooter() {
+    const { todos } = this.state
 
     if (todos.length) {
       return (
-        <Footer completedCount={completedCount}
-                activeCount={activeCount}
-                filter={filter}
-                onClearCompleted={this.handleClearCompleted.bind(this)}
-                onShow={this.handleShow.bind(this)} />
+        <Footer/>
       )
     }
   }
