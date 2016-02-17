@@ -6,7 +6,7 @@ import TodoTextInput from '../../components/TodoTextInput'
 function setup(propOverrides) {
   const props = Object.assign({
     onSave: expect.createSpy(),
-    text: 'Use Redux',
+    text: 'Use Cartiv',
     placeholder: 'What needs to be done?',
     editing: false,
     newTodo: false
@@ -34,7 +34,7 @@ describe('components', () => {
     it('should render correctly', () => {
       const { output } = setup()
       expect(output.props.placeholder).toEqual('What needs to be done?')
-      expect(output.props.value).toEqual('Use Redux')
+      expect(output.props.value).toEqual('Use Cartiv')
       expect(output.props.className).toEqual('')
     })
 
@@ -50,33 +50,33 @@ describe('components', () => {
 
     it('should update value on change', () => {
       const { output, renderer } = setup()
-      output.props.onChange({ target: { value: 'Use Radox' } })
+      output.props.onChange({ target: { value: 'Use Cartov' } })
       const updated = renderer.getRenderOutput()
-      expect(updated.props.value).toEqual('Use Radox')
+      expect(updated.props.value).toEqual('Use Cartov')
     })
 
     it('should call onSave on return key press', () => {
       const { output, props } = setup()
-      output.props.onKeyDown({ which: 13, target: { value: 'Use Redux' } })
-      expect(props.onSave).toHaveBeenCalledWith('Use Redux')
+      output.props.onKeyDown({ which: 13, target: { value: 'Use Cartiv' } })
+      expect(props.onSave).toHaveBeenCalledWith('Use Cartiv')
     })
 
     it('should reset state on return key press if newTodo', () => {
       const { output, renderer } = setup({ newTodo: true })
-      output.props.onKeyDown({ which: 13, target: { value: 'Use Redux' } })
+      output.props.onKeyDown({ which: 13, target: { value: 'Use Cartiv' } })
       const updated = renderer.getRenderOutput()
       expect(updated.props.value).toEqual('')
     })
 
     it('should call onSave on blur', () => {
       const { output, props } = setup()
-      output.props.onBlur({ target: { value: 'Use Redux' } })
-      expect(props.onSave).toHaveBeenCalledWith('Use Redux')
+      output.props.onBlur({ target: { value: 'Use Cartiv' } })
+      expect(props.onSave).toHaveBeenCalledWith('Use Cartiv')
     })
 
     it('shouldnt call onSave on blur if newTodo', () => {
       const { output, props } = setup({ newTodo: true })
-      output.props.onBlur({ target: { value: 'Use Redux' } })
+      output.props.onBlur({ target: { value: 'Use Cartiv' } })
       expect(props.onSave.calls.length).toBe(0)
     })
   })

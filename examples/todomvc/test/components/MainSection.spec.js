@@ -10,7 +10,7 @@ function setup(propOverrides) {
   const props = Object.assign({
     todos: [
       {
-        text: 'Use Redux',
+        text: 'Use Cartiv',
         completed: false,
         id: 0
       }, {
@@ -59,7 +59,7 @@ describe('components', () => {
       it('should be checked if all todos completed', () => {
         const { output } = setup({ todos: [
           {
-            text: 'Use Redux',
+            text: 'Use Cartiv',
             completed: true,
             id: 0
           }

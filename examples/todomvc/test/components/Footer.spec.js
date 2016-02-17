@@ -5,7 +5,7 @@ import Footer from '../../components/Footer'
 import { SHOW_ALL, SHOW_ACTIVE } from '../../constants/TodoFilters'
 
 function setup(propOverrides) {
-  const props = Object.assign({
+  const state = Object.assign({
     completedCount: 0,
     activeCount: 0,
     filter: SHOW_ALL,
@@ -18,7 +18,7 @@ function setup(propOverrides) {
   const output = renderer.getRenderOutput()
 
   return {
-    props: props,
+    state: state,
     output: output
   }
 }

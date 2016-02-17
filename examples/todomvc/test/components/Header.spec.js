@@ -43,7 +43,7 @@ describe('components', () => {
       const input = output.props.children[1]
       input.props.onSave('')
       expect(props.addTodo.calls.length).toBe(0)
-      input.props.onSave('Use Redux')
+      input.props.onSave('Use Cartiv')
       expect(props.addTodo.calls.length).toBe(1)
     })
   })

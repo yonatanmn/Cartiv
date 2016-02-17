@@ -8,7 +8,7 @@ function setup( editing = false ) {
   const props = {
     todo: {
       id: 0,
-      text: 'Use Redux',
+      text: 'Use Cartiv',
       completed: false
     },
     editTodo: expect.createSpy(),
@@ -56,7 +56,7 @@ describe('components', () => {
       expect(input.props.checked).toBe(false)
 
       expect(label.type).toBe('label')
-      expect(label.props.children).toBe('Use Redux')
+      expect(label.props.children).toBe('Use Cartiv')
 
       expect(button.type).toBe('button')
       expect(button.props.className).toBe('destroy')
@@ -93,14 +93,14 @@ describe('components', () => {
 
       const input = output.props.children
       expect(input.type).toBe(TodoTextInput)
-      expect(input.props.text).toBe('Use Redux')
+      expect(input.props.text).toBe('Use Cartiv')
       expect(input.props.editing).toBe(true)
     })
 
     it('TodoTextInput onSave should call editTodo', () => {
       const { output, props } = setup(true)
-      output.props.children.props.onSave('Use Redux')
-      expect(props.editTodo).toHaveBeenCalledWith(0, 'Use Redux')
+      output.props.children.props.onSave('Use Cartiv')
+      expect(props.editTodo).toHaveBeenCalledWith(0, 'Use Cartiv')
     })
 
     it('TodoTextInput onSave should call deleteTodo if text is empty', () => {
@@ -111,7 +111,7 @@ describe('components', () => {
 
     it('TodoTextInput onSave should exit component from edit state', () => {
       const { output, renderer } = setup(true)
-      output.props.children.props.onSave('Use Redux')
+      output.props.children.props.onSave('Use Cartiv')
       const updated = renderer.getRenderOutput()
       expect(updated.type).toBe('li')
       expect(updated.props.className).toBe('')
