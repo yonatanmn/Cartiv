@@ -1,9 +1,12 @@
 import {createStore} from 'cartiv';
 import api from '../actions/Api';
 
-const TosoStore = createStore({api, name: 'todo'}, {
+import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
+
+export default createStore({api, name: 'todo'}, {
   getInitialState(){
     return {
+      filter: SHOW_ALL,
       todos: [{
         text: 'Use Redux',
         completed: false,
@@ -21,5 +24,10 @@ const TosoStore = createStore({api, name: 'todo'}, {
           text
         }, ...this.state.todos]
     });
+  },
+
+  onChangeFilter(){
+    this.setState({ filter })
   }
 });
+

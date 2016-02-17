@@ -14,9 +14,9 @@ class App extends Component {
     return (
       <div>
         <Header/>
+        <MainSection/>
       </div>
     )
   }
 }
-//<MainSection/>
 export default App;
