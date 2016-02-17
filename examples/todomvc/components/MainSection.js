@@ -15,6 +15,7 @@ const TODO_FILTERS = {
   [SHOW_COMPLETED]: todo => todo.completed
 }
 @connect(todoStore, 'todos')
+@connect(todoStore, 'completedCount')
 class MainSection extends Component {
   constructor(props) {
     super(props)
@@ -50,7 +51,6 @@ class MainSection extends Component {
   }
 
   renderFooter(completedCount) {
-    return;
     const { todos, filter } = this.state
     //const { filter } = this.state
     const activeCount = todos.length - completedCount
@@ -67,13 +67,10 @@ class MainSection extends Component {
   }
 
   render() {
-    const { todos, filter } = this.state
+    const { todos, filter, completedCount } = this.state
 
     const filteredTodos = todos.filter(TODO_FILTERS[filter])
-    const completedCount = todos.reduce((count, todo) =>
-      todo.completed ? count + 1 : count,
-      0
-    )
+
 
     return (
       <section className="main">
