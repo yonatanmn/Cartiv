@@ -4,7 +4,7 @@ import createStore from './createStore';
 import createAPIsHolder from './createAPIsHolder';
 import {
     connectMixin,
-    connectDecoratorReact,
+    createConnectDecorator,
     //connectDecoratorReactNatice
 } from './componentConnectors';
 
@@ -14,7 +14,7 @@ export {
     createAPIsHolder as createAPI,
     createStore,
     connectMixin as connect,
-    connectDecoratorReact as connector,
+    createConnectDecorator as createConnector,
     //connectDecoratorReactNatice as connectorNative
 }
 
