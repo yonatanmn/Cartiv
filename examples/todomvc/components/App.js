@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react'
-import Header from 'Header'
-import MainSection from 'MainSection'
+import Header from './Header'
+import MainSection from './MainSection'
 
 //require (un-named) stores as a good habit
-var req = require.context("stores", true, /^(.*\.(js$))[^.]*$/igm);
+var req = require.context("../store", true, /^(.*\.(js$))[^.]*$/igm);
 req.keys().forEach((key)=>{
   req(key);
 });
@@ -14,8 +14,9 @@ class App extends Component {
     return (
       <div>
         <Header/>
-        <MainSection/>
       </div>
     )
   }
 }
+//<MainSection/>
+export default App;
