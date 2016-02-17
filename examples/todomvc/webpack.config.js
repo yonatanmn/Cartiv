@@ -37,18 +37,19 @@ module.exports = {
 
 // When inside cartiv repo, prefer src to compiled version.
 // You can safely delete these lines in your project.
-var cartivSrc = path.join(__dirname, '..', '..', 'src')
-var cartivNodeModules = path.join(__dirname, '..', '..', 'node_modules')
-var fs = require('fs')
-if (fs.existsSync(cartivSrc) && fs.existsSync(cartivNodeModules)) {
-  // Resolve cartiv to source
-  module.exports.resolve = { alias: { 'cartiv': cartivSrc } }
-  // Our root .babelrc needs this flag for CommonJS output
-  process.env.BABEL_ENV = 'commonjs'
-  // Compile cartiv from source
-  module.exports.module.loaders.push({
-    test: /\.js$/,
-    loaders: [ 'babel' ],
-    include: cartivSrc
-  })
-}
+//var cartivSrc = path.join(__dirname, '..', '..', 'lib')
+////var cartivNodeModules = path.join(__dirname, '..', '..', 'node_modules')
+//var fs = require('fs')
+//console.log(cartivSrc);
+//if (fs.existsSync(cartivSrc)/* && fs.existsSync(cartivNodeModules)*/) {
+//  // Resolve cartiv to source
+//  module.exports.resolve = { alias: { 'cartiv': cartivSrc } }
+//  // Our root .babelrc needs this flag for CommonJS output
+//  process.env.BABEL_ENV = 'commonjs'
+//  // Compile cartiv from source
+//  module.exports.module.loaders.push({
+//    test: /\.js$/,
+//    loaders: [ 'babel' ],
+//    include: cartivSrc
+//  })
+//}
