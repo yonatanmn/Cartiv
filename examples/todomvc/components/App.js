@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Header from '../components/Header'
-import MainSection from '../components/MainSection'
+import Header from 'Header'
+import MainSection from 'MainSection'
 import * as TodoActions from '../actions'
 
 class App extends Component {
