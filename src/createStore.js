@@ -5,7 +5,7 @@ import {extend, isFunction, isArray, startWithOn} from 'utils';
 /***
  *
  * @param {object} dispatcherConfig
- * @param {object} dispatcherConfig.api - relevant APIs holder
+ * @param {APIsHolder} dispatcherConfig.api - relevant APIs holder
  *
  * @param {string} dispatcherConfig.name - this store API, to be called with API.storeName.onChangeSomething
  *
@@ -13,11 +13,11 @@ import {extend, isFunction, isArray, startWithOn} from 'utils';
  * or a function to filter store's methods to select which will
  * become part of the API (defaulted to get methods starts with "on"+Capital like: `onSomething`)
  *
- * @param {object} storeDesc - object containing store methods
- * @param {function} storeDesc.getInitialState - function that returns the initial state
+ * @param {object} storeDefinition - object containing store methods
+ * @param {function} storeDefinition.getInitialState - function that returns the initial state
  * @returns {object}
  */
-export default function create(dispatcherConfig, storeDesc) {
+export default function create(dispatcherConfig, storeDefinition) {
 
   let {api, name, actions} = dispatcherConfig;
 
@@ -29,17 +29,18 @@ export default function create(dispatcherConfig, storeDesc) {
     ActionStrs = actions
   } else {
     let filterFunc = isFunction(actions) ? actions : startWithOn;
-    ActionStrs = Object.keys(storeDesc).filter(filterFunc);
+    ActionStrs = Object.keys(storeDefinition).filter(filterFunc);
   }
 
   let storeActions = reflux.createActions(ActionStrs);
+  api.addAPIActions(name, storeActions);
 
-  extend(api[name], storeActions);
+  //extend(api[name], storeActions);
   //api[name] = reflux.createActions(ActionStrs);
 
-  storeDesc.mixins = [storeMixin];
-  storeDesc.listenables = api[name];
+  storeDefinition.mixins = [storeMixin];
+  storeDefinition.listenables = api[name];
 
-  return reflux.createStore(storeDesc);
+  return reflux.createStore(storeDefinition);
 
 }
