@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
+import API from '../actions/Api';
 
 class TodoTextInput extends Component {
   constructor(props, context) {
@@ -11,7 +12,8 @@ class TodoTextInput extends Component {
 
   handleSave(text) {
     if (text.length !== 0) {
-      this.props.addTodo(text)
+      //this.props.addTodo(text)
+      API.todo.onAdd(text);
     }
   }
 
