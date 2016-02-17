@@ -5,7 +5,7 @@ import {extend, isFunction, isArray, startWithOn} from 'utils';
 /***
  *
  * @param {object} dispatcherConfig
- * @param {object} dispatcherConfig.api - relevant APIs holder
+ * @param {APIsHolder} dispatcherConfig.api - relevant APIs holder
  *
  * @param {string} dispatcherConfig.name - this store API, to be called with API.storeName.onChangeSomething
  *
@@ -33,8 +33,9 @@ export default function create(dispatcherConfig, storeDefinition) {
   }
 
   let storeActions = reflux.createActions(ActionStrs);
+  api.addAPIActions(name, storeActions);
 
-  extend(api[name], storeActions);
+  //extend(api[name], storeActions);
   //api[name] = reflux.createActions(ActionStrs);
 
   storeDefinition.mixins = [storeMixin];
