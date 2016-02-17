@@ -9,7 +9,7 @@ export default createStore({api, name: 'todo'}, {
       filter: SHOW_ALL,
       completedCount: 0,
       todos: [{
-        text: 'Use Redux',
+        text: 'Use Cartiv!',
         completed: false,
         id: 0
       }]

@@ -29,7 +29,10 @@ class TodoItem extends Component {
   }
 
   render() {
-    const { todo } = this.props;
+    const { todoId } = this.props;
+    const { todos } = this.state;
+    // now todo is independent from the parent `MainSection`
+    const todo = todos && todos.find(todo=>{return todo.id === todoId}) || {};
 
     let element
     if (this.state.editing) {
@@ -69,5 +72,5 @@ class TodoItem extends Component {
 export default TodoItem
 
 TodoItem.propTypes = {
-  todo: PropTypes.object.isRequired
+  todoId: PropTypes.number.isRequired
 }
