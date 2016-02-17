@@ -1,4 +1,4 @@
-import {extend} from 'utils';
+import {extend} from './utils';
 
 export default function createAPIsHolder() {
 
