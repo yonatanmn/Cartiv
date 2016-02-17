@@ -4,9 +4,9 @@ import {stateTriggers, componentRef} from './constants'
 
 let setStateFunc = (componentInstance, newState) => {
   //let newState = noKey ? state : object([key], [state]);
-  if (typeof componentInstance.isMounted === "undefined" || componentInstance.isMounted() === true) {
+  //if (typeof componentInstance.isMounted === "undefined" || componentInstance.isMounted() === true) {
     componentInstance.setState(newState);
-  }
+  //}
 };
 
 let getInitialStateFunc = (noKey, store, key, componentName)=> {
