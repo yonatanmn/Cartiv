@@ -27,6 +27,7 @@
   "license": "ISC",
   "peerDependencies": {},
   "dependencies": {
+    "react": "^0.14.0",
     "reflux-core": "^0.3.0"
   },
   "homepage": "https://github.com/yonatanmn/cartiv",

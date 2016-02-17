@@ -1,6 +1,6 @@
 import reflux from 'reflux-core';
 import storeMixin from './storeMixin';
-import {extend, isFunction, isArray, startWithOn} from 'utils';
+import {extend, isFunction, isArray, startWithOn} from './utils';
 
 /***
  *

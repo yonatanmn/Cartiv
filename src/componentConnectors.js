@@ -108,8 +108,8 @@ function connectDecorator (React, store, key) {
 }
 
 import React from 'react';
-import ReactNative from 'react-native';
+//import ReactNative from 'react-native';
 
 export let connectDecoratorReact = connectDecorator.bind(null, React);
-export let connectDecoratorReactNatice = connectDecorator.bind(null, ReactNative);
+//export let connectDecoratorReactNatice = connectDecorator.bind(null, ReactNative);
 
