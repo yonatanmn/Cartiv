@@ -89,36 +89,14 @@ let store = createStore({api, name: 'todo'}, {
       );
       this.setState({completedCount})
     }
-    console.log('xssa')
+    console.log('zxc')
   }
 });
 export default store;
 
 
 
-if(module.hot){
-  module.hot.accept();
-
-  if(module.hot.data){
-    let prevStore = module.hot.data.prevStore;
-    store.setState(prevStore.state);
-    prevStore.storeDidUpdate = null;
-
-    store.unsubscribe = store.listen(function(state) {
-        window['__oldestStores__'][module.id].setState(state);
-    });
-  }
-
-
-  module.hot.dispose(function(data) {
-    data.prevStore = module.exports.default;
-    window['__oldestStores__'] = window['__oldestStores__'] || {};
-    if(window['__oldestStores__'][module.id]){
-        data.prevStore.unsubscribe()
-    } else {
-      window['__oldestStores__'][module.id] = data.prevStore;
-    }
-  });
-}
+import allowHMR from './allowHMR';
+allowHMR(module, store);
 
 
