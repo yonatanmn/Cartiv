@@ -5,9 +5,11 @@ import createAPIsHolder from './createAPIsHolder';
 import {
     connectMixin,
     createConnectDecorator,
-    //connectDecoratorReactNatice
+    //connectDecoratorReactNative
 } from './componentConnectors';
 
+import allowHMRinStore from './allowHMRinStore'
+createStore.allowHMR = allowHMRinStore;
 
 
 export {
