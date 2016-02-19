@@ -10,7 +10,7 @@ let store = createStore({api, name: 'todo'}, {
       filter: SHOW_ALL,
       completedCount: 0,
       todos: [{
-        text: 'Use Casrsssv!',
+        text: 'Use Cartiv!',
         completed: false,
         id: 0
       }]
@@ -18,7 +18,6 @@ let store = createStore({api, name: 'todo'}, {
   },
 
   onAdd(text){
-    console.log('s')
     this.setState({
       todos: [
         {
@@ -89,14 +88,12 @@ let store = createStore({api, name: 'todo'}, {
       );
       this.setState({completedCount})
     }
-    console.log('zxc')
   }
 });
 export default store;
 
 
 
-import allowHMR from './allowHMR';
-allowHMR(module, store);
+createStore.allowHMR(module, store);
 
 
