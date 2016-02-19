@@ -89,50 +89,36 @@ let store = createStore({api, name: 'todo'}, {
       );
       this.setState({completedCount})
     }
-    console.log('xxxa')
+    console.log('xssa')
   }
 });
+export default store;
 
 
 
 if(module.hot){
-
-  module.hot.accept(function(err) {
-    console.log('[HMR] Error accepting: ' + err);
-  });
+  module.hot.accept();
 
   if(module.hot.data){
-    store.setState(module.hot.data.store.state);
-    module.hot.data.store.storeDidUpdate = null;
-    //module.hot.data.store.subscriptions = [];
-    //if(module.hot.data.store.unsubscribe){
-    //  //module.hot.data.store.unsubscribe();
-    //  if(window.counter > 2){
-    //    module.hot.data.store.unsubscribe()
-    //      }
-    //  //module.exports.default.unsubscribe();
-    //}
-    window.counter = window.counter ? window.counter + 1 : 1;
-    console.log(window.counter);
+    let prevStore = module.hot.data.prevStore;
+    store.setState(prevStore.state);
+    prevStore.storeDidUpdate = null;
+
     store.unsubscribe = store.listen(function(state) {
-      console.log(store);
-      module.hot.data.store.setState(state)
+        window['__oldestStores__'][module.id].setState(state);
     });
   }
 
 
   module.hot.dispose(function(data) {
-    data.store = module.exports.default
-
-    //if(module.exports.default.unsubscribe){
-    //  console.log('unsubcirbed')
-    //  if(window.counter > 2){
-    //    data.store.unsubscribe()
-    //  }
-    //}
-
+    data.prevStore = module.exports.default;
+    window['__oldestStores__'] = window['__oldestStores__'] || {};
+    if(window['__oldestStores__'][module.id]){
+        data.prevStore.unsubscribe()
+    } else {
+      window['__oldestStores__'][module.id] = data.prevStore;
+    }
   });
 }
 
 
-export default store;
