@@ -1,3 +1,5 @@
+import {oldestStores} from './constants';
+
 export default function allowHMR(_module, store){
   if(_module.hot) {
     _module.hot.accept();
@@ -8,18 +10,18 @@ export default function allowHMR(_module, store){
       prevStore.storeDidUpdate = null;
 
       store.unsubscribe = store.listen(function (state) {
-        window['__oldestStores__'][_module.id].setState(state);
+        window[oldestStores][_module.id].setState(state);
       });
     }
 
 
     _module.hot.dispose(function (data) {
       data.prevStore = _module.exports.default;
-      window['__oldestStores__'] = window['__oldestStores__'] || {};
-      if (window['__oldestStores__'][_module.id]) {
+      window[oldestStores] = window[oldestStores] || {};
+      if (window[oldestStores][_module.id]) {
         data.prevStore.unsubscribe()
       } else {
-        window['__oldestStores__'][_module.id] = data.prevStore;
+        window[oldestStores][_module.id] = data.prevStore;
       }
     });
   }
