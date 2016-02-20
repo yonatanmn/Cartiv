@@ -23,7 +23,7 @@ function putStateInStateProperty(state, stateProperty){
 let setStateFunc = (componentInstance, newState, stateProperty) => {
   //let newState = noKey ? state : zipObj([key], [state]);
   //if (typeof componentInstance.isMounted === "undefined" || componentInstance.isMounted() === true) {
-    componentInstance.setState(putStateInStateProperty(newState, stateProperty));
+    componentInstance.setState(putStateInStateProperty(Object.assign({},newState), stateProperty));
   //}
 };
 
@@ -32,7 +32,7 @@ let getInitialStateFunc = (store, keys, componentName)=> {
     console.warn('component ' + componentName + ' is trying to connect to a store that lacks "getInitialState()" method');
     return {};
   } else {
-    let storeState = store.state;
+    let storeState = Object.assign({}, store.state);
     //return noKey ? storeState : storeState[key];
     if(!keys){
       return storeState;
@@ -79,7 +79,12 @@ let subscribe = (_this, store, keys, componentInstance, stateProperty, displayNa
           ? dataObj
           : {[listener.key] : dataObj};
 
-        setStateFunc(componentInstance, newState, stateProperty)
+        console.log(newState === store.state)
+        //if(newState !== store.state){
+
+          setStateFunc(componentInstance, newState, stateProperty)
+        //}
+
       })
     );
   });
