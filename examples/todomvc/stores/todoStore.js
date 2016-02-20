@@ -1,13 +1,11 @@
 import {createStore} from 'cartiv';
 import api from './Api';
 
-import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
 
 
 let store = createStore({api, name: 'todo'}, {
   getInitialState(){
     return {
-      filter: SHOW_ALL,
       completedCount: 0,
       todos: [{
         text: 'Use Cartiv!',
@@ -28,9 +26,6 @@ let store = createStore({api, name: 'todo'}, {
     });
   },
 
-  onChangeFilter(filter){
-    this.setState({filter})
-  },
 
   onDelete(id){
     this.setState({

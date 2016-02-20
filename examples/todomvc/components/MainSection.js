@@ -4,7 +4,7 @@ import Footer from './Footer'
 import {createConnector} from 'cartiv';
 let connect = createConnector(React);
 import todoStore from '../stores/todoStore';
-import API from '../stores/Api';
+import filterStore from '../stores/anotherStore';
 
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
 
@@ -16,7 +16,7 @@ const TODO_FILTERS = {
 }
 @connect(todoStore, 'todos')
 @connect(todoStore, 'completedCount')
-@connect(todoStore, 'filter')
+@connect(filterStore, 'filter')
 class MainSection extends Component {
   constructor(props) {
     super(props)
