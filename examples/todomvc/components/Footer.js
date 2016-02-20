@@ -5,6 +5,7 @@ import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
 import {createConnector} from 'cartiv';
 let connect = createConnector(React);
 import todoStore from '../stores/todoStore';
+import filterStore from '../stores/anotherStore';
 import API from '../stores/Api';
 
 
@@ -14,7 +15,7 @@ const FILTER_TITLES = {
   [SHOW_COMPLETED]: 'Completed'
 }
 
-@connect(todoStore, 'filter')
+@connect(filterStore, 'filter')
 @connect(todoStore, 'todos')
 @connect(todoStore, 'completedCount')
 class Footer extends Component {
@@ -38,7 +39,7 @@ class Footer extends Component {
     return (
       <a className={classnames({ selected: filter === selectedFilter })}
          style={{ cursor: 'pointer' }}
-         onClick={() => API.todo.onChangeFilter(filter)}>
+         onClick={() => API.filter.onChangeFilter(filter)}>
         {title}
       </a>
     )
