@@ -15,9 +15,9 @@ const FILTER_TITLES = {
   [SHOW_COMPLETED]: 'Completed'
 }
 
-@connect(filterStore, 'filter')
-@connect(todoStore, 'todos')
-@connect(todoStore, 'completedCount')
+@connect(filterStore, [{'filter': 'todos_filter'}])
+@connect(todoStore, ['todos', 'completedCount'])
+//@connect(todoStore, 'completedCount')
 class Footer extends Component {
   renderTodoCount() {
     const { completedCount, todos = [] } = this.state
@@ -34,7 +34,7 @@ class Footer extends Component {
 
   renderFilterLink(filter) {
     const title = FILTER_TITLES[filter]
-    const { filter: selectedFilter } = this.state
+    const { todos_filter: selectedFilter } = this.state
 
     return (
       <a className={classnames({ selected: filter === selectedFilter })}

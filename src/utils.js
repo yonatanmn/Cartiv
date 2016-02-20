@@ -7,12 +7,18 @@ function isObject (obj) {
 export function isFunction (value) {
     return typeof value === 'function';
 }
+export function isString (value) {
+    return typeof value === 'string';
+}
 export function isArray (value) {
     return Array.isArray(value);
 }
+export function putInArrayIfNotAlready (value) {
+    return isArray(value) ? value : [value];
+}
 
 
-export function object(keys, vals) {
+export function zipObj(keys, vals) {
     var o = {}, i = 0;
     for (; i < keys.length; i++) {
         o[keys[i]] = vals[i];

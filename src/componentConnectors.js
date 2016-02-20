@@ -1,56 +1,129 @@
-import {object, isFunction} from './utils.js';
-import {stateTriggers, componentRef} from './constants'
+import {zipObj, isFunction, isString, putInArrayIfNotAlready} from './utils.js';
+import {stateTriggers, componentRef, unsubscribers} from './constants'
+
+function keyValFromObjOrString(objOrStr){
+  return isString(objOrStr)
+    ? {key: objOrStr, val: objOrStr}
+    : {key: Object.keys(objOrStr)[0], val: Object.values(objOrStr)[0]}
+}
+let keyFromObjOrString = key => {return keyValFromObjOrString(key).key};
+let valFromObjOrString = key => {return keyValFromObjOrString(key).val};
+
+/**
+ *
+ * @param state
+ * @param stateProperty
+ * @returns {object}
+ */
+function putStateInStateProperty(state, stateProperty){
+  return !stateProperty ? state : {[stateProperty] : state}
+}
 
 
-let setStateFunc = (componentInstance, newState) => {
-  //let newState = noKey ? state : object([key], [state]);
+let setStateFunc = (componentInstance, newState, stateProperty) => {
+  //let newState = noKey ? state : zipObj([key], [state]);
   //if (typeof componentInstance.isMounted === "undefined" || componentInstance.isMounted() === true) {
-    componentInstance.setState(newState);
+    componentInstance.setState(putStateInStateProperty(newState, stateProperty));
   //}
 };
 
-let getInitialStateFunc = (noKey, store, key, componentName)=> {
+let getInitialStateFunc = (store, keys, componentName)=> {
   if (!isFunction(store.getInitialState)) {
     console.warn('component ' + componentName + ' is trying to connect to a store that lacks "getInitialState()" method');
     return {};
   } else {
     let storeState = store.state;
     //return noKey ? storeState : storeState[key];
+    if(!keys){
+      return storeState;
+    } else {
+      keys = putInArrayIfNotAlready(keys);
 
-    return noKey ? storeState : object([key], [storeState[key]]);
+      return zipObj(
+        keys.map(valFromObjOrString),
+        keys.map(key => {return storeState[keyFromObjOrString(key)]})
+      );
+    }
+
+    //return !keys ? storeState : zipObj(keys, keys.map(key => {return storeState[key]}));
   }
 };
 
-let subscribe = (_this, noKey, store, key, componentInstance)=> {
-  let listener = noKey ? store : store[stateTriggers][key];
+let subscribe = (_this, store, keys, componentInstance, stateProperty, displayName)=> {
+  let listeners;
 
-  _this.unsubscribe = listener.listen((dataObj)=> {
-    //store triggers storeState or storeState.key
-    let newState = noKey ? dataObj : object([key], [dataObj]);
-    setStateFunc(componentInstance, newState)
+  if(!keys){
+    listeners = [{triggerer: store}];
+  } else {
+    keys = putInArrayIfNotAlready(keys);
+    listeners = keys.map(
+      key => {
+        let triggerer = store[stateTriggers][keyFromObjOrString(key)];
+        if(!triggerer) {
+          console.warn(displayName + ' is trying to connect to store which was not initialized with: ' + key)
+        }
+        return {
+          triggerer,
+          key: valFromObjOrString(key)
+        };
+      })
+  }
+
+  _this[unsubscribers] = [];
+
+  listeners.forEach(listener=>{
+    if(!listener.triggerer){return; }
+    _this[unsubscribers].push(
+      listener.triggerer.listen((dataObj)=> {
+        let newState = !listener.key
+          ? dataObj
+          : {[listener.key] : dataObj};
+
+        setStateFunc(componentInstance, newState, stateProperty)
+      })
+    );
+  });
+
+
+  //let listener = noKey ? store : store[stateTriggers][key];
+
+  //_this[unsubscribers] = listener.listen((dataObj)=> {
+  //  //store triggers storeState or storeState.key
+  //  let newState = noKey ? dataObj : zipObj([key], [dataObj]);
+  //  setStateFunc(componentInstance, newState)
+  //});
+};
+
+
+let unSubscribe = (_this)=> {
+  _this[unsubscribers].forEach(unsubscriber=>{
+    unsubscriber();
   });
 };
 
-let unSubscribe = (_this)=> {
-  _this.unsubscribe();
-};
+
 
 /**
  *
  * @param {object} store - Cartiv store to be connected to its state
- * @param {string} [key] - connect to a specific key in the state
+ * @param {{k:v}|string|[{k:v}|string]} keys - connect to a specific key in the state
+ *  pass string - key in the store, rename it with object - {storeKey: newName}, or send a list of those
+ * @param {string} stateProperty - set the store's state 
  * @returns {object} - react-mixin
  */
-export function connectMixin(store, key) {
-  var noKey = key === undefined;
+export function connectMixin(store, keys, stateProperty) {
+
+  //let noKey = !keys;
+  //let noStateProperty = !stateProperty;
 
   return {
     getInitialState() {
-      return getInitialStateFunc(noKey, store, key, this.constructor.displayName);
+      let initialState = getInitialStateFunc(store, keys, this.constructor.displayName);
+      return putStateInStateProperty(initialState ,stateProperty)
     },
     componentDidMount() {
       var componentInstance = this;
-      subscribe(this, noKey, store, key, componentInstance);
+      subscribe(this, store, keys, componentInstance, stateProperty, this.constructor.displayName);
     },
     componentWillUnmount(){
       unSubscribe(this);
@@ -62,11 +135,11 @@ export function connectMixin(store, key) {
  *
  * @param React - react-native or react
  * @param {object} store - Cartiv store to be connected to its state
- * @param {string} [key] - connect to a specific key in the state
- * @returns {Function} - decorator function that receives a component to control its state;
+ * @param {{k:v}|string|[{k:v}|string]} keys - connect to a specific key in the state
+ *  pass string - key in the store, rename it with object - {storeKey: newName}, or send a list of those
+ * @param {string} stateProperty - set the store's state  * @returns {Function} - decorator function that receives a component to control its state;
  */
-function connectDecorator (React, store, key) {
-  let noKey = key === undefined;
+function connectDecorator (React, store, keys, stateProperty) {
 
   return function (Component) {
     //if no explicit state declaration in 'constructor'
@@ -85,10 +158,10 @@ function connectDecorator (React, store, key) {
 
         let componentInstance = findInnerComponent(this.refs[componentRef]);
 
-        let initialState = getInitialStateFunc(noKey, store, key, Component.name);
-        setStateFunc(componentInstance, initialState);
+        let initialState = getInitialStateFunc(store, keys, Component.name);
+        setStateFunc(componentInstance, initialState, stateProperty);
 
-        subscribe(this, noKey, store, key, componentInstance);
+        subscribe(this, store, keys, componentInstance, stateProperty, componentInstance.constructor.name);
 
       };
 
