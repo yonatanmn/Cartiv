@@ -47,6 +47,7 @@ const History = React.createClass({
     if(hadRealChange){
       //console.log('push' + Date.now());
       this.history.push(prevState);
+      this.forceUpdate();
       //this.historyIndex++;
     }
   },
@@ -58,14 +59,14 @@ const History = React.createClass({
     console.log(prevHistory)
     //let prevStoreStates = Object.keys(prevHistory);
     stores.forEach(store=>{
-      if(prevHistory[store.name] !== this.state[store.name]){
+      if(!deepCompare(prevHistory[store.name], this.state[store.name])){
         store.cartivStore.setState(prevHistory[store.name]);
         store.cartivStore.__ON_HISTORY_CHANGE__ = true;
         this.storeHistories[store.name].pop();
       }
     });
     this.history.pop();
-
+    this.forceUpdate()
 
   },
   handleStoreBackClick(store){
@@ -85,10 +86,36 @@ const History = React.createClass({
     let backStyle = {
       color: '#0000ff'
     };
+    let boldStyle={
+      fontWeight: 900
+    };
+    function merge(){
+      return Object.assign({}, ...arguments);
+    }
+
     return (
-      <div style={Object.assign({}, floatingStyle)}>
-        <div style={Object.assign({}, backStyle)} onClick={this.handleBackClick}>BACK ALL</div>
-        {JSON.stringify(this.state)}
+      <div style={merge(floatingStyle)}>
+        {this.history.length}
+        {!!this.history.length && <span style={merge(backStyle)} onClick={this.handleBackClick}>BACK ALL</span>}
+        {/*JSON.stringify*/Object.keys(this.state).map((storeName, key)=>{
+          return (
+              <div key={key}>
+                {this.storeHistories[storeName] ? (<span className="history">{this.storeHistories[storeName].length}</span>) : 0}
+                <div style={merge(boldStyle)}>{storeName} store</div>
+                <div className="details">
+                  {Object.keys(this.state[storeName]).map((innerState, key) =>{
+                    return (
+                        <div key={key}>
+                          <span>{innerState} : </span>
+                          <span>{JSON.stringify(this.state[storeName][innerState])}</span>
+                        </div>
+
+                    )
+                  })}
+                </div>
+
+              </div>)
+        })}
 
 
 
