@@ -104,10 +104,14 @@ const History = React.createClass({
                 <div style={merge(boldStyle)}>{storeName} store</div>
                 <div className="details">
                   {Object.keys(this.state[storeName]).map((innerState, key) =>{
+                    let disp = JSON.stringify(this.state[storeName][innerState]);
+                    function changeDisp(e){
+                      console.log(e.curr)
+                    }
                     return (
                         <div key={key}>
                           <span>{innerState} : </span>
-                          <span>{JSON.stringify(this.state[storeName][innerState])}</span>
+                          <input value={disp} onChange={changeDisp}/>
                         </div>
 
                     )
