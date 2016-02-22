@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import todoStore from '../stores/todoStore';
 import filterStore from '../stores/anotherStore';
 import {connect} from 'cartiv';
+import {deepCompare} from './utils'
 
 const NAME = '__CARTIV_STORE_NAME__';
 
@@ -30,7 +31,7 @@ const History = React.createClass({
     stores.forEach(store => {
       if(store.cartivStore.__ON_HISTORY_CHANGE__){
         delete store.cartivStore.__ON_HISTORY_CHANGE__;
-      } else if(prevState[store.name] !== this.state[store.name]){
+      } else if(!deepCompare(prevState[store.name], this.state[store.name])){
         this.storeHistories[store.name] = this.storeHistories[store.name] || [];
         this.storeHistories[store.name].push(prevState[store.name]);
         hadRealChange = true;
@@ -44,6 +45,7 @@ const History = React.createClass({
     //  }
     //});
     if(hadRealChange){
+      //console.log('push' + Date.now());
       this.history.push(prevState);
       //this.historyIndex++;
     }
@@ -51,6 +53,7 @@ const History = React.createClass({
 
   handleBackClick(){
     let prevHistory = this.history[this.history.length - 1];
+    if(!prevHistory){return; }
 
     console.log(prevHistory)
     //let prevStoreStates = Object.keys(prevHistory);
@@ -95,5 +98,14 @@ const History = React.createClass({
 });
 
 export default History;
+
+const HistoryDisplay = React.createClass({
+
+  render(){
+    return (
+        <History/>
+    )
+  }
+});
 
 //{JSON.stringify(this.state)}
