@@ -1,7 +1,7 @@
 import reflux from 'reflux-core';
 import storeMixin from './storeMixin';
 import {extend, isFunction, isArray, startWithOn} from './utils';
-
+import {storeName} from './constants';
 /***
  *
  * @param {object} dispatcherConfig
@@ -40,6 +40,7 @@ export default function create(dispatcherConfig, storeDefinition) {
 
   storeDefinition.mixins = [storeMixin];
   storeDefinition.listenables = api[name];
+  storeDefinition[storeName] = name;
 
   return reflux.createStore(storeDefinition);
 
