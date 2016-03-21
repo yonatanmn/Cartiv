@@ -1,3 +1,6 @@
+![cartiv logo](/assets/logo02.png)
+
+
 # Cartiv
 ## making Flux look as pretty as React
 
@@ -19,7 +22,7 @@ Secondly, **the view should not control the state of the app**, it can call an e
 
 ###architecture
 
-![cartiv architecture](/ArchitectureDrawing.png)
+![cartiv architecture](/assets/ArchitectureDrawing.png)
 
 Think about how a React component works: 
 ```js
