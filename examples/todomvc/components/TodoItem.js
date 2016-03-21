@@ -38,7 +38,8 @@ class TodoItem extends Component {
     let element;
     if (this.state.editing) {
       element = (
-        <TodoTextInput text={todo.text}
+        <TodoTextInput
+          text={todo.text}
           editing={this.state.editing}
           onSave={(text) => this.handleSave(todo.id, text)}
         />
