@@ -81,9 +81,12 @@ let textStore = createStore(
     /* this is the store config: */
     api: API, // listen to actions coming from api
     name: 'text', // actions under 'text' property, e.g: api.text.onAction
-    // config.actions can either be an array of strings or a filter function. 
+    
     // config.actions is optional, 
     // when not provided, all methods starting with 'on' will get called
+    <!--actions-->
+     
+    // config.actions can either be an array of strings or a filter function. 
     actions: ['onChange', 'onSomethingElse'], // specify methods that will get called when equivalent action triggered
     actions: function(action){return action.indexOf('get') > -1} //custom filter function 
   }, 
