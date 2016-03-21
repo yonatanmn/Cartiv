@@ -1,7 +1,7 @@
-import {oldestStores} from './constants';
+import { oldestStores } from './constants';
 
-export default function allowHMR(_module, store){
-  if(_module.hot) {
+export default function allowHMR(_module, store) {
+  if (_module.hot) {
     _module.hot.accept();
 
     if (_module.hot.data) {
@@ -9,17 +9,17 @@ export default function allowHMR(_module, store){
       store.setState(prevStore.state);
       prevStore.storeDidUpdate = null;
 
-      store.unsubscribe = store.listen(function (state) {
+      store.unsubscribe = store.listen((state) => {
         window[oldestStores][_module.id].setState(state);
       });
     }
 
 
-    _module.hot.dispose(function (data) {
+    _module.hot.dispose((data) => {
       data.prevStore = _module.exports.default;
       window[oldestStores] = window[oldestStores] || {};
       if (window[oldestStores][_module.id]) {
-        data.prevStore.unsubscribe()
+        data.prevStore.unsubscribe();
       } else {
         window[oldestStores][_module.id] = data.prevStore;
       }

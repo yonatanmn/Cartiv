@@ -1,4 +1,4 @@
-import {createAPI} from 'cartiv';
+import { createAPI } from 'cartiv';
 
 let API = createAPI();
 export default API;

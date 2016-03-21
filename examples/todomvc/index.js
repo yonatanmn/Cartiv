@@ -1,11 +1,11 @@
-import 'babel-polyfill'
-import React from 'react'
-import { render } from 'react-dom'
-import App from './components/App'
-import 'todomvc-app-css/index.css'
+import 'babel-polyfill';
+import React from 'react';
+import { render } from 'react-dom';
+import App from './components/App';
+import 'todomvc-app-css/index.css';
 
 
 render(
-    <App />,
+    <App/>,
   document.getElementById('root')
-)
+);

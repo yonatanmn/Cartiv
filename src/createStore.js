@@ -1,7 +1,7 @@
 import reflux from 'reflux-core';
 import storeMixin from './storeMixin';
-import {extend, isFunction, isArray, startWithOn} from './utils';
-import {storeName} from './constants';
+import { isFunction, isArray, startWithOn } from './utils';
+import { storeName } from './constants';
 /***
  *
  * @param {object} dispatcherConfig
@@ -18,15 +18,14 @@ import {storeName} from './constants';
  * @returns {object}
  */
 export default function create(dispatcherConfig, storeDefinition) {
-
-  let {api, name, actions} = dispatcherConfig;
+  let { api, name, actions } = dispatcherConfig;
 
   //let storeApi = api[name] || {};
 
   let ActionStrs;
 
-  if(isArray(actions)){
-    ActionStrs = actions
+  if (isArray(actions)) {
+    ActionStrs = actions;
   } else {
     let filterFunc = isFunction(actions) ? actions : startWithOn;
     ActionStrs = Object.keys(storeDefinition).filter(filterFunc);
@@ -43,5 +42,5 @@ export default function create(dispatcherConfig, storeDefinition) {
   storeDefinition[storeName] = name;
 
   return reflux.createStore(storeDefinition);
-
 }
+

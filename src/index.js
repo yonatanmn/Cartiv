@@ -1,5 +1,3 @@
-'use strict';
-
 import createStore from './createStore';
 import createAPIsHolder from './createAPIsHolder';
 import {
@@ -8,7 +6,7 @@ import {
     //connectDecoratorReactNative
 } from './componentConnectors';
 
-import allowHMRinStore from './allowHMRinStore'
+import allowHMRinStore from './allowHMRinStore';
 createStore.allowHMR = allowHMRinStore;
 
 
@@ -18,5 +16,5 @@ export {
     connectMixin as connect,
     createConnectDecorator as createConnector,
     //connectDecoratorReactNatice as connectorNative
-}
+};
 

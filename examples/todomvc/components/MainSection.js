@@ -1,19 +1,18 @@
-import React, { Component, PropTypes } from 'react'
-import TodoItem from './TodoItem'
-import Footer from './Footer'
-import {createConnector} from 'cartiv';
+import React, { Component } from 'react';
+import TodoItem from './TodoItem';
+import Footer from './Footer';
+import { createConnector } from 'cartiv';
 let connect = createConnector(React);
 import todoStore from '../stores/todoStore';
-import API from '../stores/Api';
 
-import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
+import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters';
 
 //enum - not redux stuff
 const TODO_FILTERS = {
   [SHOW_ALL]: () => true,
   [SHOW_ACTIVE]: todo => !todo.completed,
   [SHOW_COMPLETED]: todo => todo.completed
-}
+};
 @connect(todoStore, 'todos')
 @connect(todoStore, 'completedCount')
 @connect(todoStore, 'filter')
@@ -23,38 +22,28 @@ class MainSection extends Component {
     this.state = {
       todos: [],
       filter: SHOW_ALL
-    }
+    };
   }
 
-
-
-
-
-  handleCompletedAll(){
+  handleCompletedAll() {
     // todo:
     //actions.completeAll
   }
 
   renderToggleAll(completedCount) {
-    const { todos } = this.state
-    if (todos.length > 0) {
-      return (
-        <input className="toggle-all"
-               type="checkbox"
-               checked={completedCount === todos.length}
-               onChange={this.handleCompletedAll} />
-      )
-    }
+    const { todos } = this.state;
+    return todos.length > 0 && (
+      <input className="toggle-all"
+        type="checkbox"
+        checked={completedCount === todos.length}
+        onChange={this.handleCompletedAll}
+      />
+    );
   }
 
   renderFooter() {
-    const { todos } = this.state
-
-    if (todos.length) {
-      return (
-        <Footer/>
-      )
-    }
+    const { todos } = this.state;
+    return !!todos.length && <Footer/>;
   }
 
   render() {
@@ -68,12 +57,12 @@ class MainSection extends Component {
         {this.renderToggleAll(completedCount)}
         <ul className="todo-list">
           {filteredTodos.map(todo =>
-            <TodoItem key={todo.id} todoId={todo.id} />
+            <TodoItem key={todo.id} todoId={todo.id}/>
           )}
         </ul>
         {this.renderFooter(completedCount)}
       </section>
-    )
+    );
   }
 }
 
@@ -82,4 +71,4 @@ class MainSection extends Component {
 //  actions: PropTypes.object.isRequired
 //}
 
-export default MainSection
+export default MainSection;

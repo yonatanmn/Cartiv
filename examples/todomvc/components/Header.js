@@ -1,5 +1,5 @@
-import React, { PropTypes, Component } from 'react'
-import TodoTextInput from './TodoTextInput'
+import React, { Component } from 'react';
+import TodoTextInput from './TodoTextInput';
 
 class Header extends Component {
 
@@ -8,10 +8,11 @@ class Header extends Component {
       <header className="header">
           <h1>todos</h1>
           <TodoTextInput newTodo
-                         placeholder="What needs to be done?" />
+            placeholder="What needs to be done?"
+          />
       </header>
-    )
+    );
   }
 }
 
-export default Header
+export default Header;

@@ -1,0 +1,20 @@
+{
+  "plugins": ["react"],
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "rules" : {
+    "semi": 2,
+    "comma-dangle": 0,
+    "no-param-reassign": 0,
+    "arrow-body-style": 0,
+    "no-use-before-define": 0,
+    "react/jsx-space-before-closing": [2, "never"],
+    "react/prefer-es6-class": 0,
+    "react/jsx-no-bind": 0,
+    "react/prefer-stateless-function": 0,
+    "prefer-const": 0,
+    "no-else-return": 0,
+    "max-len": [2, {"code": 120, "tabWidth": 4, "ignoreUrls": true}],
+    "spaced-comment": 0
+  }
+}

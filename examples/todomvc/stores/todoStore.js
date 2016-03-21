@@ -1,11 +1,11 @@
-import {createStore} from 'cartiv';
+import { createStore } from 'cartiv';
 import api from './Api';
 
-import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
+import { SHOW_ALL } from '../constants/TodoFilters';
 
 
-let store = createStore({api, name: 'todo'}, {
-  getInitialState(){
+let store = createStore({ api, name: 'todo' }, {
+  getInitialState() {
     return {
       filter: SHOW_ALL,
       completedCount: 0,
@@ -14,10 +14,10 @@ let store = createStore({api, name: 'todo'}, {
         completed: false,
         id: 0
       }]
-    }
+    };
   },
 
-  onAdd(text){
+  onAdd(text) {
     this.setState({
       todos: [
         {
@@ -28,72 +28,69 @@ let store = createStore({api, name: 'todo'}, {
     });
   },
 
-  onChangeFilter(filter){
-    this.setState({filter})
+  onChangeFilter(filter) {
+    this.setState({ filter });
   },
 
-  onDelete(id){
+  onDelete(id) {
     this.setState({
       todos: this.state.todos.filter(todo =>
         todo.id !== id
       )
-    })
+    });
   },
 
-  onEdit(id, text){
+  onEdit(id, text) {
     this.setState({
       todos: this.state.todos.map(todo =>
         todo.id === id ?
-          Object.assign({}, todo, {text}) :
+          Object.assign({}, todo, { text }) :
           todo
       )
-    })
+    });
   },
 
-  onComplete(id){
+  onComplete(id) {
     this.setState({
       todos: this.state.todos.map(todo =>
         todo.id === id ?
-          Object.assign({}, todo, {completed: !todo.completed}) :
+          Object.assign({}, todo, { completed: !todo.completed }) :
           todo
       )
-    })
+    });
   },
 
-  onCompleteAll(){
-    let {todos} = this.state;
+  onCompleteAll() {
+    let { todos } = this.state;
     const areAllMarked = todos.every(todo => todo.completed);
     this.setState({
       todos: todos.map(todo => Object.assign({}, todo, {
         completed: !areAllMarked
       }))
-    })
+    });
   },
 
 
-  onClearCompleted(){
+  onClearCompleted() {
     this.setState({
       todos: this.state.todos.filter(todo => todo.completed === false)
-    })
+    });
   },
 
 
-  storeDidUpdate(prevState){
-    let {todos} = this.state;
+  storeDidUpdate(prevState) {
+    let { todos } = this.state;
 
     if (prevState.todos !== todos) {
       const completedCount = todos.reduce((count, todo) =>
           todo.completed ? count + 1 : count,
         0
       );
-      this.setState({completedCount})
+      this.setState({ completedCount });
     }
   }
 });
 export default store;
 
 
-
 createStore.allowHMR(module, store);
-
-

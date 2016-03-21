@@ -1,14 +1,14 @@
 //var Reflux = require('reflux');
 //var utils = require('./utils.js');
 import Reflux from 'reflux-core';
-import {extend, isFunction, setProp} from './utils.js';
-import {stateTriggers} from './constants'
+import { extend, isFunction, setProp } from './utils.js';
+import { stateTriggers } from './constants';
 
 function attachAction(actionName) {
   this[stateTriggers] = this[stateTriggers] || {};
   if (this[stateTriggers][actionName]) {
-    console.warn(
-        'Not attaching event ' + actionName + '; key already exists'
+    console.warn( //eslint-disable-line no-console
+        `Not attaching event ${actionName}; key already exists`
     );
     return;
   }
@@ -17,20 +17,19 @@ function attachAction(actionName) {
 
 
 export default {
-  setState: function (newState) {
-
+  setState(newState) {
     if (isFunction(this.shouldStoreUpdate) && !this.shouldStoreUpdate(newState)) {
       return;
     }
 
-    var changed = false;
-    var prevState = extend({}, this.state);
+    let changed = false;
+    let prevState = extend({}, this.state);
 
-    for (var key in newState) {
+    for (let key in newState) {
       if (newState.hasOwnProperty(key)) {
         if (this.state[key] !== newState[key]) {
           this.state = setProp(this.state, newState, key);
-          
+
           let triggerer = this[stateTriggers][key];
           if (!triggerer) { attachAction.call(this, key); }
           triggerer.trigger(newState[key]);
@@ -46,13 +45,12 @@ export default {
 
       this.trigger(this.state);
     }
-
   },
 
-  init: function () {
+  init() {
     if (isFunction(this.getInitialState)) {
       this.state = this.getInitialState();
-      for (var key in this.state) {
+      for (let key in this.state) {
         if (this.state.hasOwnProperty(key)) {
           attachAction.call(this, key);
         }
@@ -60,3 +58,4 @@ export default {
     }
   }
 };
+
