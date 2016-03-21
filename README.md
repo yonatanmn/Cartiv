@@ -132,8 +132,8 @@ var SimpleComp = React.createClass({
               // [{text: inputText}, 'someOtherState'...] //mixed list of previous options
       'someName' // optional -  the state will be available under this property. e.g: this.state.someName.text
     ),
-     connect(otherStore, [dogs, {cats: 'kittens'}]),
-     connect(thirdStore)
+     connect(otherStore, ['dogs', {cats: 'kittens'}]),
+     connect(thirdStore) // connect to every state of this store
   ], 
   onChange(e) {
     //this.setState({text: e.target.value});  //we don't use inner state any more
