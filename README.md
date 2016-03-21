@@ -132,7 +132,8 @@ var SimpleComp = React.createClass({
               // [{text: inputText}, 'someOtherState'...] //mixed list of previous options
       'someName' // optional -  the state will be available under this property. e.g: this.state.someName.text
     ),
-     connect(otherStore, 'someState'), //...
+     connect(otherStore, [dogs, {cats: 'kittens'}]),
+     connect(thirdStore)
   ], 
   onChange(e) {
     //this.setState({text: e.target.value});  //we don't use inner state any more
@@ -155,7 +156,10 @@ If you are using react es6 classes, connect with es7 decorators */
 import {createConnector} from 'cartiv';
 const connect = createConnector(React);
 
+//@viewPortDecorator // make sure other decorators that returns a Component (usually those who provide props) are above `connector` (since it controls state).
 @connect(textStore) //same signature as the mixin one
+@connect(otherStore, ['dogs', {'cats' : 'kittens'}])
+//@autobind //other decorators could be anywhere
 class SimpleComp extends Component { ...
 ```
 
