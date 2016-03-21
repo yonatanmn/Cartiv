@@ -4,6 +4,7 @@ import Footer from './Footer';
 import { createConnector } from 'cartiv';
 let connect = createConnector(React);
 import todoStore from '../stores/todoStore';
+import API from '../stores/Api';
 
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters';
 
@@ -25,18 +26,13 @@ class MainSection extends Component {
     };
   }
 
-  handleCompletedAll() {
-    // todo:
-    //actions.completeAll
-  }
-
   renderToggleAll(completedCount) {
     const { todos } = this.state;
     return todos.length > 0 && (
       <input className="toggle-all"
         type="checkbox"
         checked={completedCount === todos.length}
-        onChange={this.handleCompletedAll}
+        onChange={API.todo.onCompleteAll}
       />
     );
   }
