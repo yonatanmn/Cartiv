@@ -1,7 +1,5 @@
 ![cartiv logo](/assets/logo02.png)
 
-
-# Cartiv
 ## making Flux look as pretty as React
 
 > [usage](#usage)
