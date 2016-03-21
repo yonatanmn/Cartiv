@@ -1,6 +1,6 @@
 {
   "name": "cartiv",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Super simple implementation of the flux architecture. The core is based on reflux, but it's reactive, and much more fun! No dispatcher, no reducers, no explicit actions, and definitely no ugly switch statements, would you believe that?",
   "main": "lib/index.js",
   "repository": {
