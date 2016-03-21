@@ -19,7 +19,7 @@ const TODO_FILTERS = {
 @connect(todoStore, 'filter')
 class MainSection extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       todos: [],
       filter: SHOW_ALL
@@ -58,9 +58,9 @@ class MainSection extends Component {
   }
 
   render() {
-    const { todos, filter, completedCount } = this.state
+    const { todos, filter, completedCount } = this.state;
 
-    const filteredTodos = todos.filter(TODO_FILTERS[filter])
+    const filteredTodos = todos.filter(TODO_FILTERS[filter]);
 
 
     return (

@@ -15,14 +15,14 @@ const FILTER_TITLES = {
 }
 
 @connect(todoStore, 'filter')
-@connect(todoStore, 'todos')
-@connect(todoStore, 'completedCount')
+//@connect(todoStore, 'todos')
+@connect(todoStore, ['completedCount', {todos: 'todoList'}])
 class Footer extends Component {
   renderTodoCount() {
-    const { completedCount, todos = [] } = this.state
-    const activeCount = todos.length - completedCount;
+    const { completedCount, todoList = [] } = this.state;
+    const activeCount = todoList.length - completedCount;
 
-    const itemWord = activeCount === 1 ? 'item' : 'items'
+    const itemWord = activeCount === 1 ? 'item' : 'items';
 
     return (
       <span className="todo-count">
@@ -32,8 +32,8 @@ class Footer extends Component {
   }
 
   renderFilterLink(filter) {
-    const title = FILTER_TITLES[filter]
-    const { filter: selectedFilter } = this.state
+    const title = FILTER_TITLES[filter];
+    const { filter: selectedFilter } = this.state;
 
     return (
       <a className={classnames({ selected: filter === selectedFilter })}
@@ -45,7 +45,7 @@ class Footer extends Component {
   }
 
   renderClearButton() {
-    const { completedCount } = this.state
+    const { completedCount } = this.state;
     if (completedCount > 0) {
       return (
         <button className="clear-completed"
@@ -73,7 +73,7 @@ class Footer extends Component {
   }
 }
 
-Footer.propTypes = {
-}
+/*Footer.propTypes = {
+}*/
 
 export default Footer
