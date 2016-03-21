@@ -1,7 +1,7 @@
-#not ready yet!!!
-
 # Cartiv
 ## making Flux look as pretty as React
+
+> [usage](#usage)
 
 #####Simple
 The goal of this library is to provide the **easiest and simplest Flux experience**, based on the the knowledge the react community has gained using older flux frameworks - Alt, Reflux and Redux. 
@@ -59,6 +59,7 @@ Cartiv works the same way:
 - auto-magically every component listening to the store will get the new state
 
 ###Usage
+<a name="usage"></a>
 
 ```bash
 $npm install cartiv --save
