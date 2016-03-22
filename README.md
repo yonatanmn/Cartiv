@@ -6,7 +6,7 @@
 
 #####Simple
 The goal of this library is to provide the **easiest and simplest Flux experience**, based on the the knowledge the react community has gained using older flux frameworks - Alt, Reflux and Redux. 
-In Cartic there are only *Stores*, *Components* and simple *API* object to communicate between them (forget about reducers, dispatchers, switch statements, global constants, action-creators etc). And yes, simplicity comes together with scalability and flexibility!
+In Cartiv there are only *Stores*, *Components* and simple *API* object to communicate between them (forget about reducers, dispatchers, switch statements, global constants, action-creators etc). And yes, simplicity comes together with scalability and flexibility!
 
 
 #####Reactive like React
