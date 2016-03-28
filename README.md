@@ -151,6 +151,13 @@ let textStore = createStore(
       // every connected component, that in turn will re-render
     },
     
+    //async is easily done:
+    onGetDataFromServer(){
+      ajax.get(url).then((response)=>{
+        this.setState({serverData: response}); //when it'll be available, it will auto change every connected component
+      })
+    },
+    
     storeDidUpdate(prevState){ // same as React!
       if(this.state.text !== prevState.text){console.log('text has changed'); }
     } 
@@ -181,6 +188,9 @@ var SimpleComp = React.createClass({
      connect(otherStore, ['dogs', {cats: 'kittens'}]),
      connect(thirdStore) // connect to every state of this store
   ], 
+  componentWillMount(){
+    API.text.onGetDataFromServer();
+  }
   onChange(e) {
     //this.setState({text: e.target.value});  //we don't use inner state any more
     API.text.onChange(e.target.value)
@@ -202,7 +212,7 @@ If you are using react es6 classes, connect with es7 decorators */
 import {createConnector} from 'cartiv';
 const connect = createConnector(React);
 
-//@viewPortDecorator // make sure other decorators that returns a Component (usually those who provide props) are above `connector` (since it controls state).
+//@viewPortDecorator // make sure other decorators that returns a Component (usually those who provide props) are above `connect` (since it controls state).
 @connect(textStore) //same signature as the mixin one
 @connect(otherStore, ['dogs', {'cats' : 'kittens'}])
 //@autobind //other decorators could be anywhere
