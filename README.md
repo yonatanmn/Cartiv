@@ -2,7 +2,53 @@
 
 ## making Flux look as pretty as React
 
-> [usage](#usage)
+
+### Simplest usage
+
+```js
+/**** ./stores/api.js ****/
+import {createAPI} from 'cartiv';
+export default createAPI();
+
+
+/**** ./stores/TextStore.js ****/
+import {createStore} from 'cartiv';
+import api from './Api';
+
+export default createStore({api, name: 'text'}, {
+  getInitialState(){
+  	return { title: 'Use Cartiv!', text: "It's the simplest flux you'll find"};
+  },
+  onChange(text){
+  	this.setState({text}); //setState... in a store!
+  },  
+  
+});
+
+
+/**** ./component/SimpleComp.js ****/
+import textStore from '../stores/TextStore';
+import API from '../stores/Api';
+import {createConnector} from 'cartiv';
+const connect = createConnector(React);
+
+@connect(textStore) //connect to states from store
+class SimpleComp extends Component { ...
+  onChange(e) { API.text.onChange(e.target.value) } //use the store's API
+  render() {
+    let {text, title} = this.state;
+    return (
+      <div>
+        <h3>{title}</h3>
+        <input onChange={this.onChange} value={text} />
+      <div>
+    );
+  }
+});
+```
+> [full usage](#usage)
+
+### About Cartiv
 
 #####Simple
 The goal of this library is to provide the **easiest and simplest Flux experience**, based on the the knowledge the react community has gained using older flux frameworks - Alt, Reflux and Redux. 
@@ -59,7 +105,7 @@ Cartiv works the same way:
 - Component can only call an action through the API object, and then (maybe) the store will change its own state 
 - auto-magically every component listening to the store will get the new state
 
-###Usage
+### Full Usage
 <a name="usage"></a>
 
 ```bash
@@ -165,8 +211,6 @@ class SimpleComp extends Component { ...
 
 
 
-
-[this basic usage code, without all the comments](https://jsfiddle.net/yonatanmn/gwk75qfw/1/), 
 
 [todoMVC example](https://github.com/yonatanmn/Cartiv/tree/master/examples/todomvc) (copied from Redux repo, removed all the unnecessary parts and now it's Cartiv!)
 
