@@ -2,8 +2,11 @@
 
 ## making Flux look as pretty as React
 
+Cartiv provides the simplest flux experience around. It is reactive like a react component, and have similar api, so if you know react - you'll understand this immediately. No annoying boilerplate and repetitions, better separation of concerns, and above all - simple and fun. Just try and you will see!
 
 ### Simplest usage
+
+3 files - react `componnet` *connected* to a `store` and *speaks* with `api`
 
 ```js
 /**** ./stores/api.js ****/
@@ -36,7 +39,7 @@ const connect = createConnector(React);
 class SimpleComp extends Component { ...
   onChange(e) { API.text.onChange(e.target.value) } //use the store's API
   render() {
-    let {text, title} = this.state;
+    let {text, title} = this.state; //free magical state from the store
     return (
       <div>
         <h3>{title}</h3>
