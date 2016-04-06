@@ -2,7 +2,7 @@
 
 ## making Flux look as pretty as React
 
-Cartiv provides the simplest flux experience around. It is reactive like a react component, and have similar api, so if you know react - you'll understand this immediately. No annoying boilerplate and repetitions, better separation of concerns, and above all - simple and fun. Just try and you will see!
+Cartiv provides the simplest flux experience around. It is reactive like a react component, and have similar api, so if you know react - you'll understand this immediately. No annoying boilerplate and repetitions, better separation of concerns, and above all - it is simple and fun. Just try and you will see!
 
 ### Simplest usage
 
