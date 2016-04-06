@@ -1,8 +1,11 @@
 {
   "name": "cartiv",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Super simple implementation of the flux architecture. The core is based on reflux, but it's reactive, and much more fun! No dispatcher, no reducers, no explicit actions, and definitely no ugly switch statements, would you believe that?",
   "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yonatanmn/cartiv.git"
@@ -26,8 +29,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "reflux-core": "^0.3.0",
-    "babel-polyfill": "^6.7.4"
+    "reflux-core": "^0.3.0"
   },
   "homepage": "https://github.com/yonatanmn/cartiv",
   "readmeFilename": "README.md",
