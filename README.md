@@ -240,6 +240,8 @@ Can you get any simpler?
 The internals of this library are based on [reflux-core](https://github.com/reflux/refluxjs). This guarantees the stability of a mature framework with this new interface. 
 I thank @spoike and the rest of the reflux community.
 
+Special thanks to [Yoni Levi](https://www.facebook.com/yonileelevy) for the logo's design
+
 Cartiv has began as a [mixin for reflux](https://github.com/yonatanmn/Super-Simple-Flux#reflux-state-mixin), that succeeded quite well. Later this was titled as a specification called [super simple flux](https://github.com/yonatanmn/Super-Simple-Flux). 
 
 I've found out that Cartiv shares many ideas with [om](https://github.com/omcljs/om). great library, take a look.
