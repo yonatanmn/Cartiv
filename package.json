@@ -37,7 +37,7 @@
     "url": "https://github.com/yonatanmn/cartiv/issues"
   },
   "scripts": {
-    "build": "babel --plugins transform-runtime --presets react,es2015,stage-0 -d lib/ src/",
+    "build": "babel -d lib/ src/",
     "watch": "npm run build -- --watch",
     "lint": "eslint src examples"
   },
