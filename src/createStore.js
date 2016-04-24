@@ -1,4 +1,5 @@
 import reflux from 'reflux-core';
+import createActions from './createActions';
 import storeMixin from './storeMixin';
 import { isFunction, isArray, startWithOn, isString, isObject, isArrayOfStrings } from './utils';
 import { storeName } from './constants';
@@ -45,9 +46,9 @@ export default function create(dispatcherConfig, storeDefinition) {
     ActionStrs = Object.keys(storeDefinition).filter(filterFunc);
   }
 
-  let storeActions = reflux.createActions(ActionStrs);
-  api.addAPIActions(name, storeActions);
+  let storeActions = createActions(ActionStrs);
 
+  api.addAPIActions(name, storeActions);
   //extend(api[name], storeActions);
   //api[name] = reflux.createActions(ActionStrs);
 

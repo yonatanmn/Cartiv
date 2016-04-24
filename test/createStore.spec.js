@@ -1,6 +1,7 @@
 
 import expect from 'expect.js';
 import { createStore, createAPI } from '../src/index';
+import { emptyFunction } from './testUtils';
 
 describe('Cartiv Store', () => {
   it('Cartiv index should expose createStore', () => {
@@ -53,15 +54,41 @@ describe('Cartiv Store', () => {
       expect(createStore).withArgs(dispatcherConfig, { getInitialState: {} }).to.throwError();
       expect(createStore).withArgs(dispatcherConfig, { getInitialState: '123' }).to.throwError();
     });
-    //
-    //it('should throw if proper actions not provided', () => {
-    //  expect(createStore).withArgs({ actions: {} }, {}).to.throwError();
-    //  expect(createStore).withArgs({ actions: { a: 1 } }, {}).to.throwError();
-    //  expect(createStore).withArgs({ actions: [] }, {}).to.throwError();
-    //  expect(createStore).withArgs({ actions: ['a', {}] }, {}).to.throwError();
-    //});
   });
 
+  describe('created Store', () => {
+    let api;
+    let dispatcherConfig;
+    let basicStoreDef = { getInitialState: emptyFunction, a: emptyFunction, b: emptyFunction, onActionA: emptyFunction, onActionB: emptyFunction };
 
+    beforeEach(() => {
+      api = createAPI();
+      dispatcherConfig = { api, name: 'name' };
+    });
+
+    it('should should create a store', () => {
+      let store = createStore(dispatcherConfig, {});
+      expect(store.constructor.name).to.eql('Store');
+    });
+
+    it('should should subscribe to "onCapital" actions', () => {
+      let store = createStore(dispatcherConfig, basicStoreDef);
+      expect(store.subscriptions.length).to.eql(2);
+      expect(store.subscriptions[0].listenable.actionName).to.eql('onActionA');
+    });
+    it('should should subscribe to [string] actions', () => {
+      dispatcherConfig.actions = ['a', 'b', 'c'];
+      let store = createStore(dispatcherConfig, basicStoreDef);
+      expect(store.subscriptions.length).to.eql(2);
+      expect(store.subscriptions[0].listenable.actionName).to.eql('a');
+    });
+    it('should should subscribe to filtered() actions', () => {
+      dispatcherConfig.actions = (a) => {return a.includes('Action'); };
+      let store = createStore(dispatcherConfig, basicStoreDef);
+      expect(store.subscriptions.length).to.eql(2);
+      expect(store.subscriptions[0].listenable.actionName).to.eql('onActionA');
+    });
+
+  });
 
 });
