@@ -1,14 +1,37 @@
 
 import expect from 'expect.js';
-import { createAPI } from '../src/index';
-import reflux from 'reflux-core';
-
-
-const add = (a, b) => a + b;
+import { createAPI, createActions } from '../src/index';
 
 describe('Cartiv API', () => {
   it('should expose createAPI', () => {
     expect(createAPI).to.be.a('function');
+  });
+
+  it('should expose createActions', () => {
+    expect(createActions).to.be.a('function');
+  });
+
+  describe('createActions', () => {
+    it('should throw if no [string]||string actions', () => {
+      expect(createActions).to.throwError();
+      expect(createActions).withArgs('').to.throwError();
+      expect(createActions).withArgs(['', {}]).to.throwError();
+      expect(createActions).withArgs([undefined, '']).to.throwError();
+      expect(createActions).withArgs({}).to.throwError();
+      expect(createActions).withArgs(12).to.throwError();
+    });
+
+    it('should create action when string provided', () => {
+      let actions = createActions('first');
+      expect(actions.first).to.be.a('function');
+      expect(actions.first._isAction).to.be.ok();
+    });
+
+    it('should create action when array of strings provided', () => {
+      let actions = createActions(['first', 'second']);
+      expect(actions.first._isAction).to.be.ok();
+      expect(actions.second._isAction).to.be.ok();
+    });
   });
 
   describe('addAPIActions', () => {
@@ -28,7 +51,7 @@ describe('Cartiv API', () => {
     });
 
     it('should store actions', () => {
-      let actions = reflux.createActions(['first', 'second']);
+      let actions = createActions(['first', 'second']);
       API.addAPIActions('apiName', actions);
 
       expect(API.apiName).to.be.an('object');
@@ -36,18 +59,23 @@ describe('Cartiv API', () => {
       expect(API.apiName.second._isAction).to.be.ok();
     });
 
-    it('should extend inner apis', () => {
-      let actions = reflux.createActions(['first']);
-      let secondActions = reflux.createActions(['second']);
+    it('should extend inner APIs', () => {
+      let actions = createActions(['first']);
+      let secondActions = createActions(['second']);
       API.addAPIActions('apiName', actions);
       API.addAPIActions('apiName', secondActions);
       expect(API.apiName.first._isAction).to.be.ok();
       expect(API.apiName.second._isAction).to.be.ok();
     });
-  });
 
-
-  it('should do math', function () {
-    expect(add(1, 3)).to.equal(4);
+    it('should store several APIs', () => {
+      let actions = createActions(['a', 'b']);
+      let secondActions = createActions(['c', 'd']);
+      API.addAPIActions('apiName', actions);
+      API.addAPIActions('secondApiName', secondActions);
+      expect(API.apiName.a._isAction).to.be.ok();
+      expect(API.secondApiName.c._isAction).to.be.ok();
+      expect(API.secondApiName.b).to.be(undefined);
+    });
   });
 });
