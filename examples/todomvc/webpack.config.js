@@ -31,6 +31,13 @@ module.exports = {
         include: __dirname
       }
     ]
+  },
+  resolve: {
+    alias:{
+      //remove NodeModules/cartiv
+      //build cartiv
+      'cartiv': path.join(__dirname, '..', '..', 'lib')
+    }
   }
 }
 
