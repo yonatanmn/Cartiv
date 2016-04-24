@@ -1,8 +1,7 @@
 //var utils = {};
 
-function isObject(obj) {
-  let type = typeof obj;
-  return type === 'function' || type === 'object' && !!obj;
+export function isObject(obj) {
+  return !!obj && (typeof obj === 'object') && !isArray(obj) && !isFunction(obj);
 }
 export function isFunction(value) {
   return typeof value === 'function';
@@ -13,6 +12,10 @@ export function isString(value) {
 export function isArray(value) {
   return Array.isArray(value);
 }
+export function isArrayOfStrings(value) {
+  return isArray(value) && value.every(isString);
+}
+
 export function putInArrayIfNotAlready(value) {
   return isArray(value) ? value : [value];
 }

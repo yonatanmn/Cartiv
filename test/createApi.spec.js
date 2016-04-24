@@ -3,11 +3,11 @@ import expect from 'expect.js';
 import { createAPI, createActions } from '../src/index';
 
 describe('Cartiv API', () => {
-  it('should expose createAPI', () => {
+  it('Cartiv index should expose createAPI', () => {
     expect(createAPI).to.be.a('function');
   });
 
-  it('should expose createActions', () => {
+  it('Cartiv index should expose createActions', () => {
     expect(createActions).to.be.a('function');
   });
 

@@ -1,6 +1,6 @@
 import reflux from 'reflux-core';
 import storeMixin from './storeMixin';
-import { isFunction, isArray, startWithOn } from './utils';
+import { isFunction, isArray, startWithOn, isString, isObject, isArrayOfStrings } from './utils';
 import { storeName } from './constants';
 /***
  *
@@ -20,7 +20,21 @@ import { storeName } from './constants';
 export default function create(dispatcherConfig, storeDefinition) {
   let { api, name, actions } = dispatcherConfig;
 
-  //let storeApi = api[name] || {};
+  if (!isObject(api) || !isFunction(api.addAPIActions) /*|| !(api instanceof 'APIsHolder')*/) {
+    throw new Error('dispatcherConfig.api should be an API object');
+  }
+  if (!isString(name)) {
+    throw new Error('dispatcherConfig.name should be a string');
+  }
+  if (actions && !isFunction(actions) && !isArrayOfStrings(actions)) {
+    throw new Error('dispatcherConfig.name should be a string');
+  }
+  if (!isObject(storeDefinition)) {
+    throw new Error('store definition is not plain object');
+  }
+  if (storeDefinition.getInitialState && !isFunction(storeDefinition.getInitialState)) {
+    throw new Error('getInitialState is not a function');
+  }
 
   let ActionStrs;
 
