@@ -136,12 +136,12 @@ export function connectMixin(store, keys, stateProperty) {
 }
 
 export function updateConnects(_this, store, keys, stateProperty) {
-  if (_this[unsubscribers]){
+  if (_this[unsubscribers]) {
     unSubscribe(_this);
   }
 
-  let initialState = getInitialStateFunc(store, keys, _this.constructor.displayName);
-  putStateInStateProperty(initialState, stateProperty);
+  let currentState = getInitialStateFunc(store, keys, _this.constructor.displayName);
+  setStateFunc(_this, currentState, stateProperty);
 
   subscribe(_this, store, keys, _this, stateProperty, _this.constructor.displayName);
   return function updateConnectsUnSubscribe() { unSubscribe(_this); };
