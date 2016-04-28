@@ -9,7 +9,7 @@ Cartiv provides the simplest flux experience around. It is reactive like a react
 All you need is three files - react `componnet` *connected* to (\controlled by) a `store` and *speaks* with it via `api`
 
 ```js
-/**** ./stores/api.js ****/
+/**** ./api.js ****/
 import {createAPI} from 'cartiv';
 export default createAPI();
 
