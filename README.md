@@ -16,7 +16,7 @@ export default createAPI();
 
 /**** ./stores/TextStore.js ****/
 import {createStore} from 'cartiv';
-import api from './Api';
+import api from '../api';
 
 export default createStore({api, name: 'text'}, {
   getInitialState(){
@@ -31,13 +31,13 @@ export default createStore({api, name: 'text'}, {
 
 /**** ./component/SimpleComp.js ****/
 import textStore from '../stores/TextStore';
-import API from '../stores/Api';
+import api from '../api';
 import {createConnector} from 'cartiv';
 const connect = createConnector(React);
 
 @connect(textStore) //connect to states from store
 class SimpleComp extends Component { ...
-  onChange(e) { API.text.onChange(e.target.value) } //use the store's API
+  onChange(e) { api.text.onChange(e.target.value) } //use the store's API
   render() {
     let {text, title} = this.state; //free magical state from the store
     return (
