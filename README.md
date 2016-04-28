@@ -231,6 +231,9 @@ Can you get any simpler?
 
 (if you think you can - tell me your ideas - Cartiv is still young, and open for any thing that will help building react apps in the simplest possible way)
 
+##### What's the meaning of the name?
+Cartiv sort of sounds like React + reactive. In Hebrew it means popcicle - which is just simple fun and cool, like this library!
+
 #####Wath's next
 - Adding cartiv-history component for development, easy time travel through the history of the stores' states (state history actions history!)
 - Boilerplate of Cartiv + server - adding `connect` to server from store with sockects (Meteorizing react! yay!)
