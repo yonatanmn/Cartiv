@@ -29,7 +29,8 @@
   },
   "license": "ISC",
   "dependencies": {
-    "reflux-core": "^0.3.0"
+    "reflux-core": "^0.3.0",
+    "babel-runtime": "^6.6.1"
   },
   "homepage": "https://github.com/yonatanmn/cartiv",
   "readmeFilename": "README.md",
@@ -48,7 +49,6 @@
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-react": "^6.1.18",
     "babel-preset-stage-0": "^6.1.18",
-    "babel-runtime": "^6.6.1",
     "eslint": "^2.2.0",
     "eslint-config-airbnb": "^6.1.0",
     "eslint-plugin-react": "^4.2.3"
