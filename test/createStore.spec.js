@@ -59,14 +59,18 @@ describe('Cartiv Store', () => {
   describe('created Store', () => {
     let api;
     let dispatcherConfig;
-    let basicStoreDef = { getInitialState: emptyFunction, a: emptyFunction, b: emptyFunction, onActionA: emptyFunction, onActionB: emptyFunction };
+    let basicStoreDef = {
+      getInitialState: emptyFunction,
+      a: emptyFunction, b: emptyFunction,
+      onActionA: emptyFunction, onActionB: emptyFunction
+    };
 
     beforeEach(() => {
       api = createAPI();
       dispatcherConfig = { api, name: 'name' };
     });
 
-    it('should  create a store', () => {
+    it('should create a store', () => {
       let store = createStore(dispatcherConfig, {});
       expect(store.constructor.name).to.eql('Store');
     });
@@ -88,7 +92,29 @@ describe('Cartiv Store', () => {
       expect(store.subscriptions.length).to.eql(2);
       expect(store.subscriptions[0].listenable.actionName).to.eql('onActionA');
     });
-
   });
 
+  describe('state changes', () => {
+    let api;
+    let dispatcherConfig;
+    let basicStoreDef = {
+      //getInitialState() { return { a: 1 }; },
+      //a: emptyFunction, b: emptyFunction,
+      //onActionA: emptyFunction, onActionB: emptyFunction
+    };
+
+    beforeEach(() => {
+      api = createAPI();
+      dispatcherConfig = { api, name: 'name' };
+    });
+
+    it('should have state based on getInitialState', () => {
+      basicStoreDef.getInitialState = () => { return { a: 1 }; };
+
+      let store = createStore(dispatcherConfig, basicStoreDef);
+
+      expect(store.state).to.eql({ a: 1 });
+    });
+  });
 });
+
