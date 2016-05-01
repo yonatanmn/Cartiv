@@ -42,21 +42,21 @@ let store = createStore({ api, name: 'todo' }, {
 
   onEdit(id, text) {
     this.setState({
-      todos: this.state.todos.map(todo =>
-        todo.id === id ?
+      todos: this.state.todos.map(todo => {
+        return todo.id === id ?
           Object.assign({}, todo, { text }) :
-          todo
-      )
+          todo;
+      })
     });
   },
 
   onComplete(id) {
     this.setState({
-      todos: this.state.todos.map(todo =>
-        todo.id === id ?
+      todos: this.state.todos.map(todo => {
+        return todo.id === id ?
           Object.assign({}, todo, { completed: !todo.completed }) :
-          todo
-      )
+          todo;
+      })
     });
   },
 
@@ -82,10 +82,9 @@ let store = createStore({ api, name: 'todo' }, {
     let { todos } = this.state;
 
     if (prevState.todos !== todos) {
-      const completedCount = todos.reduce((count, todo) =>
-          todo.completed ? count + 1 : count,
-        0
-      );
+      const completedCount = todos.reduce((count, todo) => {
+        return todo.completed ? count + 1 : count;
+      }, 0);
       this.setState({ completedCount });
     }
   }
