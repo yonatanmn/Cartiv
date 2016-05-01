@@ -2,9 +2,10 @@ import createStore from './createStore';
 import createAPIsHolder from './createAPIsHolder';
 import createActions from './createActions';
 import {
-    connectMixin,
-    createConnectDecorator,
-    //connectDecoratorReactNative
+  connectMixin,
+  createConnectDecorator,
+  //connectDecoratorReactNative
+  updateConnects
 } from './componentConnectors';
 
 import allowHMRinStore from './allowHMRinStore';
@@ -17,6 +18,8 @@ export {
     createStore,
     connectMixin as connect,
     createConnectDecorator as createConnector,
-    //connectDecoratorReactNatice as connectorNative
+    updateConnects,
 };
+
+//connectDecoratorReactNatice as connectorNative
 
