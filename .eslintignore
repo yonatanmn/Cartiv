@@ -1,4 +1,5 @@
 **/dist/**
 **/node_modules/**
+**/examples/todomvc/test/**
 **/server.js
 **/webpack.config*.js
