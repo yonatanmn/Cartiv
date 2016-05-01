@@ -1,6 +1,6 @@
 {
   "name": "cartiv",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Super simple implementation of the flux architecture. The core is based on reflux, but it's reactive, and much more fun! No dispatcher, no reducers, no explicit actions, and definitely no ugly switch statements, would you believe that?",
   "main": "lib/index.js",
   "files": [
@@ -41,7 +41,8 @@
     "build": "babel -d lib/ src/",
     "watch": "npm run build -- --watch",
     "lint": "eslint src examples",
-    "test": "mocha --compilers js:babel-register --recursive"
+    "test": "mocha --compilers js:babel-register --recursive",
+    "prepublish": "npm run build"
   },
   "devDependencies": {
     "babel-cli": "^6.2.0",
