@@ -1,5 +1,9 @@
 ![cartiv logo](/assets/logo02.png)
 
+
+[![NPM Version][npm-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
+
 ## making Flux look as pretty as React
 
 Cartiv provides the simplest flux experience around. It is reactive like a react component, and have similar api, so if you know react - you'll understand this immediately. No annoying boilerplate and repetitions, better separation of concerns, and above all - it is simple and fun. Just try and you will see!
@@ -248,3 +252,9 @@ Special thanks to [Yoni Levi](https://www.facebook.com/yonileelevy) for the logo
 Cartiv has began as a [mixin for reflux](https://github.com/yonatanmn/Super-Simple-Flux#reflux-state-mixin), that succeeded quite well. Later this was titled as a specification called [super simple flux](https://github.com/yonatanmn/Super-Simple-Flux). 
 
 I've found out that Cartiv shares many ideas with [om](https://github.com/omcljs/om). great library, take a look.
+
+
+[npm-image]: http://img.shields.io/npm/v/cartiv.svg
+[npm-url]: https://www.npmjs.org/package/cartiv
+[travis-image]: https://travis-ci.org/yonatanmn/Cartiv.svg?branch=master
+[travis-url]: https://travis-ci.org/yonatanmn/Cartiv
