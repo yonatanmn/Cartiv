@@ -81,23 +81,10 @@ let subscribe = (_this, store, keys, componentInstance, stateProperty, displayNa
           ? dataObj
           : { [listener.key]: dataObj };
 
-        //console.log(newState === store.state)
-        //if(newState !== store.state){
-
         setStateFunc(componentInstance, newState, stateProperty);
-        //}
       })
     );
   });
-
-
-  //let listener = noKey ? store : store[stateTriggers][key];
-
-  //_this[unsubscribers] = listener.listen((dataObj)=> {
-  //  //store triggers storeState or storeState.key
-  //  let newState = noKey ? dataObj : zipObj([key], [dataObj]);
-  //  setStateFunc(componentInstance, newState)
-  //});
 };
 
 

@@ -4,7 +4,7 @@ export default function createAPIsHolder() {
   function APIsHolder() {}
 
   function addAPIActions(apiName, actions) {
-    //this[name] = Object.assign({}, this[name], actions);
+    if (typeof apiName !== 'string' || !apiName) { throw new Error('Please mention api name'); }
     if (this[apiName]) {
       extend(this[apiName], actions);
     } else {
