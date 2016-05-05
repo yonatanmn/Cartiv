@@ -9,6 +9,9 @@ export default function createActions(actionNames) {
     throw new Error('Please mention action names as array of strings or single action as a string');
   }
 
-  return reflux.createActions(actionNames);
+  var actions = {};
+  actionNames.forEach((name) => {
+    actions[name] = reflux.createAction({ actionName: name, sync: true });
+  });
+  return actions;
 }
-
