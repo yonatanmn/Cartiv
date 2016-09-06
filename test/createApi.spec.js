@@ -32,6 +32,20 @@ describe('Cartiv API', () => {
       expect(actions.first._isAction).to.be.ok();
       expect(actions.second._isAction).to.be.ok();
     });
+
+    it('should create async actions', () => {
+      let firstAction = createActions('first');
+      let secondAction = createActions('second', { sync: false });
+      expect(!firstAction.first.sync).to.be.ok();
+      expect(!secondAction.second.sync).to.be.ok();
+    });
+
+    it('should create sync actions', () => {
+      let actions = createActions(['first', 'second'], { sync: true });
+      console.log('actions', actions)
+      expect(actions.first.sync).to.be.ok();
+      expect(actions.second.sync).to.be.ok();
+    })
   });
 
   describe('addAPIActions', () => {
