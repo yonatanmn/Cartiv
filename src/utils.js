@@ -60,12 +60,11 @@ export function extend(obj, ...rest) {
 }
 
 export function startWithOn(str) {
-  return str[0] === 'o' && str[1] === 'n' && str[2].toUpperCase() === str[2];
+  return str.length >= 3 && str.slice(0, 2) === 'on' && str[2].toUpperCase() === str[2];
 }
 
 export function startWithOnEndWithSync(str) {
-  var l = str.length;
-  return startWithOn(str) && str[l - 4] === 'S' && str[l - 3] === 'y' && str[l - 2] === 'n' && str[l - 1] === 'c';
+  return str.length >= 7 && startWithOn(str) && str.slice(-4) === 'Sync';
 }
 
 //module.exports = utils;
