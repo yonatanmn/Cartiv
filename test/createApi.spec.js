@@ -42,10 +42,9 @@ describe('Cartiv API', () => {
 
     it('should create sync actions', () => {
       let actions = createActions(['first', 'second'], { sync: true });
-      console.log('actions', actions)
       expect(actions.first.sync).to.be.ok();
       expect(actions.second.sync).to.be.ok();
-    })
+    });
   });
 
   describe('addAPIActions', () => {

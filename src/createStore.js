@@ -1,7 +1,15 @@
 import reflux from 'reflux-core';
 import createActions from './createActions';
 import storeMixin from './storeMixin';
-import { isFunction, isArray, startWithOn, startWithOnEndWithSync, isString, isObject, isArrayOfStrings } from './utils';
+import {
+    isFunction,
+    isArray,
+    startWithOn,
+    startWithOnEndWithSync,
+    isString,
+    isObject,
+    isArrayOfStrings
+} from './utils';
 import { storeName } from './constants';
 
 /***

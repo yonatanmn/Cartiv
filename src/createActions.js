@@ -12,7 +12,7 @@ export default function createActions(actionNames, options) {
     throw new Error('Please mention action names as array of strings or single action as a string');
   }
 
-  var actions = {};
+  let actions = {};
   actionNames.forEach((name) => {
     actions[name] = reflux.createAction({ ...options, actionName: name });
   });
