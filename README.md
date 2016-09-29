@@ -146,12 +146,12 @@ let textStore = createStore(
     
     // config.syncActions is optional, 
     // when not provided, all methods starting with 'on' and ending with 'Sync' will get called synchronously
-    // (meaning method starting with 'on' and NOT ending with 'Sync' will get called asynchronously)
     <!--syncActions-->
      
     // config.syncActions can either be an array of strings or a filter function. 
     syncActions: ['onChangeSomething', 'onSomethingElse'], // specify methods that will get called when equivalent action triggered
     syncActions: function(action){return action.indexOf('get') > -1} //custom filter function 
+    // note that async (named or filtered) will override sync in case of conflict    
   }, 
   {
     /* this is the store definition: */
