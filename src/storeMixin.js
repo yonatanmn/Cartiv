@@ -12,7 +12,7 @@ function attachAction(actionName) {
     );
     return;
   }
-  this[stateTriggers][actionName] = Reflux.createAction({ sync: true });
+  this[stateTriggers][actionName] = Reflux.createAction();
 }
 
 

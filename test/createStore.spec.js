@@ -1,7 +1,11 @@
 
 import expect from 'expect.js';
 import { createStore, createAPI } from '../src/index';
-import { emptyFunction } from './testUtils';
+import { emptyFunction, existsInArray } from './testUtils';
+
+function existsActionWithNameInSubscriptions(subscriptions, name) {
+  return existsInArray(subscriptions, subscription => subscription.listenable.actionName === name);
+}
 
 describe('Cartiv Store', () => {
   it('Cartiv index should expose createStore', () => {
@@ -30,8 +34,14 @@ describe('Cartiv Store', () => {
       expect(createStore).withArgs({ actions: [] }, {}).to.throwError();
       expect(createStore).withArgs({ actions: ['a', {}] }, {}).to.throwError();
     });
-  });
 
+    it('should throw if proper sync actions not provided', () => {
+      expect(createStore).withArgs({ syncActions: {} }, {}).to.throwError();
+      expect(createStore).withArgs({ syncActions: { a: 1 } }, {}).to.throwError();
+      expect(createStore).withArgs({ syncActions: [] }, {}).to.throwError();
+      expect(createStore).withArgs({ syncActions: ['a', {}] }, {}).to.throwError();
+    });
+  });
 
   describe('handle store definition', () => {
     let api;
@@ -62,7 +72,7 @@ describe('Cartiv Store', () => {
     let basicStoreDef = {
       getInitialState: emptyFunction,
       a: emptyFunction, b: emptyFunction,
-      onActionA: emptyFunction, onActionB: emptyFunction
+      onActionA: emptyFunction, onActionBSync: emptyFunction
     };
 
     beforeEach(() => {
@@ -75,22 +85,50 @@ describe('Cartiv Store', () => {
       expect(store.constructor.name).to.eql('Store');
     });
 
-    it('should subscribe to "onCapital" actions', () => {
+    it('should subscribe to "onCapital" & "onCapitalSync" actions', () => {
       let store = createStore(dispatcherConfig, basicStoreDef);
       expect(store.subscriptions.length).to.eql(2);
-      expect(store.subscriptions[0].listenable.actionName).to.eql('onActionA');
+      expect(existsActionWithNameInSubscriptions(store.subscriptions, 'onActionA')).to.be.ok();
+      expect(existsActionWithNameInSubscriptions(store.subscriptions, 'onActionBSync')).to.be.ok();
     });
-    it('should subscribe to [string] actions', () => {
+    it('should subscribe to [string] async actions & "onCapitalSync" sync actions', () => {
       dispatcherConfig.actions = ['a', 'b', 'c'];
       let store = createStore(dispatcherConfig, basicStoreDef);
-      expect(store.subscriptions.length).to.eql(2);
-      expect(store.subscriptions[0].listenable.actionName).to.eql('a');
+      expect(store.subscriptions.length).to.eql(3);
+      expect(existsActionWithNameInSubscriptions(store.subscriptions, 'a')).to.be.ok();
+      expect(existsActionWithNameInSubscriptions(store.subscriptions, 'b')).to.be.ok();
+      expect(existsActionWithNameInSubscriptions(store.subscriptions, 'onActionBSync')).to.be.ok();
+    });
+    it('should subscribe to "onCapital" async actions & [string] sync actions', () => {
+      dispatcherConfig.syncActions = ['a', 'b', 'c'];
+      let store = createStore(dispatcherConfig, basicStoreDef);
+      expect(store.subscriptions.length).to.eql(4);
+      expect(existsActionWithNameInSubscriptions(store.subscriptions, 'a')).to.be.ok();
+      expect(existsActionWithNameInSubscriptions(store.subscriptions, 'b')).to.be.ok();
+      expect(existsActionWithNameInSubscriptions(store.subscriptions, 'onActionA')).to.be.ok();
+      expect(existsActionWithNameInSubscriptions(store.subscriptions, 'onActionBSync')).to.be.ok();
     });
     it('should subscribe to filtered() actions', () => {
-      dispatcherConfig.actions = (a) => {return a.includes('Action'); };
+      dispatcherConfig.actions = (a) => {return a.includes('ActionA'); };
+      dispatcherConfig.syncActions = (b) => {return b.includes('ActionB'); };
       let store = createStore(dispatcherConfig, basicStoreDef);
       expect(store.subscriptions.length).to.eql(2);
-      expect(store.subscriptions[0].listenable.actionName).to.eql('onActionA');
+      expect(existsActionWithNameInSubscriptions(store.subscriptions, 'onActionA')).to.be.ok();
+      expect(existsActionWithNameInSubscriptions(store.subscriptions, 'onActionBSync')).to.be.ok();
+    });
+
+    it('should create sync "onCapital" actions', () => {
+      dispatcherConfig.syncActions = (a) => {return a.includes('NoAction'); };
+      let store = createStore(dispatcherConfig, basicStoreDef);
+      expect(store.subscriptions.length).to.eql(2);
+      expect(!store.subscriptions[0].listenable.sync).to.be.ok();
+      expect(!store.subscriptions[1].listenable.sync).to.be.ok();
+    });
+    it('should create async "onCapitalSync" actions', () => {
+      dispatcherConfig.actions = (a) => {return a.includes('NoAction'); };
+      let store = createStore(dispatcherConfig, basicStoreDef);
+      expect(store.subscriptions.length).to.eql(1);
+      expect(store.subscriptions[0].listenable.sync).to.be.ok();
     });
 
     it('should listen to actions', (done) => {
@@ -189,6 +227,24 @@ describe('Cartiv Store', () => {
       expect(store.state).to.eql({ a: 2, b: 1, c: 3 });
       done();
     }, 1);
+  });
+
+  it('should work, full flow - syncronous action to state', (done) => {
+    let api = createAPI();
+    let dispatcherConfig = { api, name: 'name', syncActions: ['onActionSync'] };
+    let basicStoreDef = {
+      getInitialState() { return { a: 1, b: 'b', c: 3 }; },
+      onActionSync() {
+        this.setState({ a: 2, b: 1 });
+      }
+    };
+
+    let store = createStore(dispatcherConfig, basicStoreDef);
+
+    expect(store.state).to.eql({ a: 1, b: 'b', c: 3 });
+    api.name.onActionSync();
+    expect(store.state).to.eql({ a: 2, b: 1, c: 3 });
+    done();
   });
 });
 

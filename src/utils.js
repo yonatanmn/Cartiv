@@ -63,4 +63,9 @@ export function startWithOn(str) {
   return str[0] === 'o' && str[1] === 'n' && str[2].toUpperCase() === str[2];
 }
 
+export function startWithOnEndWithSync(str) {
+  var l = str.length;
+  return startWithOn(str) && str[l - 4] === 'S' && str[l - 3] === 'y' && str[l - 2] === 'n' && str[l - 1] === 'c';
+}
+
 //module.exports = utils;
